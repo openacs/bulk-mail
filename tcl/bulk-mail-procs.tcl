@@ -170,7 +170,15 @@ namespace eval bulk_mail {
     } {
         ns_log notice "bulk_mail::sweep starting"
 
-        db_transaction {
+        ## JCD: this transaction is misguided since any code 
+        ## errors in any procs below would cause the messages 
+        ## already sent to be marked unsent.  Also, it seems to 
+        ## cause locking problems on oracle 
+        ## (per Caroline Meeks 
+        ## http://openacs.org/bugtracker/openacs/bug?bug_number=93
+
+        #db_transaction {
+
             foreach bulk_mail [db_list_of_ns_sets select_bulk_mails_to_send {}] {
                 foreach recipient [db_list_of_ns_sets select_bulk_mail_recipients [ns_set get $bulk_mail query]] {
 
@@ -235,7 +243,7 @@ namespace eval bulk_mail {
                 set bulk_mail_id [ns_set get $bulk_mail bulk_mail_id]
                 db_dml mark_message_sent {}
             }
-        }
+        #}
 
         ns_log notice "bulk_mail::sweep ending"
     }

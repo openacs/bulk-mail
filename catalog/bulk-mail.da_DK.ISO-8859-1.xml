@@ -3,10 +3,10 @@
 
   <msg key="Extra_Headers">Ekstra Headers</msg>
   <msg key="From">Fra</msg>
-  <msg key="lt_No_bulk_mail_messages">Ingen gruppemails.</msg>
+  <msg key="lt_No_bulk_mail_messages">Der er ingen Massemail-beskeder at vise.</msg>
   <msg key="Message">Besked</msg>
   <msg key="No">Nej</msg>
-  <msg key="pretty_name">gruppemail</msg>
+  <msg key="pretty_name">Massemail</msg>
   <msg key="Query">Forespørgsel</msg>
   <msg key="Reply_To">Svar til</msg>
   <msg key="Send_Date">Afsendelsesdato</msg>

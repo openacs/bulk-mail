@@ -8,7 +8,7 @@ ad_page_contract {
     {orderby "send_date*,subject"}
 } -properties {
     title:onevalue
-    context_bar:onevalue
+    context:onevalue
     table:onevalue
 }
 
@@ -17,7 +17,7 @@ set package_id [ad_conn package_id]
 permission::require_permission -object_id $package_id -privilege admin
 
 set title [bulk_mail::pretty_name]
-set context_bar [ad_context_bar All]
+set context [list All]
 
 set table_def {
     {send_date {Send Date} {bulk_mail_messages.send_date $order} {<td width="10%">[util_AnsiDatetoPrettyDate $send_date]</td>}}

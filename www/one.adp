@@ -1,6 +1,6 @@
 <master src="master">
 <property name="title">@title@</property>
-<property name="context_bar">@context_bar@</property>
+<property name="context">@context@</property>
 
   <table bgcolor="#ececec" border="1" width="95%" cellpadding="3" cellspacing="3">
     <tr>

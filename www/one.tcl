@@ -8,7 +8,7 @@ ad_page_contract {
     bulk_mail_id:integer,notnull
 } -properties {
     title:onevalue
-    context_bar:onevalue
+    context:onevalue
 }
 
 permission::require_permission -object_id $bulk_mail_id -privilege admin
@@ -21,6 +21,6 @@ set subject [ad_quotehtml $subject]
 set message [ad_quotehtml $message]
 
 set title $subject
-set context_bar [ad_context_bar $subject]
+set context [list $subject]
 
 ad_return_template

@@ -185,7 +185,9 @@ namespace eval bulk_mail {
             foreach bulk_mail [db_list_of_ns_sets select_bulk_mails_to_send {}] {
 		#Although the message may change for each recipiant, it usually doesn't.  We check by looking to see if message_old = the current messag.  This is inicialized here for each bulk_mail.
 		set message_old ""
-		
+
+		# NOTE: JCD: the query issued here is actually stored in the database in column bulk_mail_messages.query
+		# I am horrified by this.
                 foreach recipient [db_list_of_ns_sets select_bulk_mail_recipients [ns_set get $bulk_mail query]] {
 
                     # create a list of key, value pairs that will be used to

@@ -5,7 +5,6 @@
 -- @version $Id$
 --
 
-drop function bulk_mail__new;
 create function bulk_mail__new (integer, integer, varchar, varchar, varchar, varchar, varchar, varchar, varchar, text, varchar, timestamp, integer, varchar, integer)
 returns integer as '
 declare
@@ -68,7 +67,6 @@ begin
 end;
 ' language 'plpgsql';
 
-drop function bulk_mail__delete;
 create function bulk_mail__delete (integer)
 returns integer as '
 declare
@@ -79,7 +77,7 @@ begin
     from bulk_mail_messages
     where bulk_mail_messages.bulk_mail_id = bulk_mail__delete__bulk_mail_id;
 
-    acs_object__delete(bulk_mail__delete__bulk_mail_id);
+    perform acs_object__delete(bulk_mail__delete__bulk_mail_id);
 
 end;
 ' language 'plpgsql';

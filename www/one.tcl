@@ -7,9 +7,11 @@ ad_page_contract {
 } -query {
     bulk_mail_id:integer,notnull
 } -properties {
-    bulk_mail_name:onevalue
+    title:onevalue
     context_bar:onevalue
 }
+
+permission::require_permission -object_id $bulk_mail_id -privilege admin
 
 set package_id [ad_conn package_id]
 

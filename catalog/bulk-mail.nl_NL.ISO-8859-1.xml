@@ -3,10 +3,10 @@
 
   <msg key="Extra_Headers">Extra kopregels</msg>
   <msg key="From">Van</msg>
-  <msg key="lt_No_bulk_mail_messages">Er zijn geen bulke-mail berichten om te tonen.</msg>
+  <msg key="lt_No_bulk_mail_messages">Er zijn geen berichten over mailingen beschikbaar.</msg>
   <msg key="Message">Bericht</msg>
   <msg key="No">Nee</msg>
-  <msg key="pretty_name">Bulke-mail</msg>
+  <msg key="pretty_name">Mailing</msg>
   <msg key="Query">Vraag</msg>
   <msg key="Reply_To">Antwoord naar</msg>
   <msg key="Send_Date">Verzenddatum</msg>

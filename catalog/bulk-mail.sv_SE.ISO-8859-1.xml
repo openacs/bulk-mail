@@ -3,14 +3,14 @@
 
   <msg key="Extra_Headers">Extra Headers</msg>
   <msg key="From">Från</msg>
-  <msg key="lt_No_bulk_mail_messages">Inga Grupputskicksmeddelanden att visa.</msg>
+  <msg key="lt_No_bulk_mail_messages">Inga massutskicksmeddelanden att visa.</msg>
   <msg key="Message">Meddelande</msg>
   <msg key="No">Nej</msg>
-  <msg key="pretty_name">Grupputskick</msg>
+  <msg key="pretty_name">Massutskick</msg>
   <msg key="Query">Fråga</msg>
   <msg key="Reply_To">Svar till</msg>
-  <msg key="Send_Date">Skickat datum</msg>
+  <msg key="Send_Date">Utskicksdatum</msg>
   <msg key="Sent">Skickat?</msg>
-  <msg key="Subject">Ärende</msg>
+  <msg key="Subject">Ämne</msg>
   <msg key="Yes">Ja</msg>
 </message_catalog>

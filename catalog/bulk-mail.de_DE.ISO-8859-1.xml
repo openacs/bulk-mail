@@ -6,7 +6,7 @@
   <msg key="lt_No_bulk_mail_messages">Keine Rundmails vorhanden</msg>
   <msg key="Message">Nachricht</msg>
   <msg key="No">Nein</msg>
-  <msg key="pretty_name">Gruppen-E-Mails</msg>
+  <msg key="pretty_name">Rundmails</msg>
   <msg key="Query">Abfrage</msg>
   <msg key="Reply_To">Antwortadresse</msg>
   <msg key="Send_Date">Versenden am</msg>

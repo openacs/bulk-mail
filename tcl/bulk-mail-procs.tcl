@@ -171,7 +171,8 @@ namespace eval bulk_mail {
     } {
         process any bulk_mails that are ready to send
     } {
-        ns_log notice "bulk_mail::sweep starting"
+
+	ns_log Debug "bulk_mail::sweep starting"
 
         ## JCD: this transaction is misguided since any code 
         ## errors in any procs below would cause the messages
@@ -284,7 +285,7 @@ namespace eval bulk_mail {
             }
         #}
 
-        ns_log notice "bulk_mail::sweep ending"
+        ns_log Debug "bulk_mail::sweep ending"
     }
 
     ad_proc -private interpolate {

@@ -7,11 +7,11 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
     
-    <version name="0.3" url="http://openacs.org/repository/download/apm/bulk-mail-0.3.apm">
+    <version name="0.5" url="http://openacs.org/repository/download/apm/bulk-mail-0.5.apm">
         <owner url="mailto:yon@milliped.com">Yonatan Feldman</owner>
         <release-date>2003-06-12</release-date>
 
-        <provides url="bulk-mail" version="0.3"/>
+        <provides url="bulk-mail" version="0.5"/>
         <requires url="acs-mail-lite" version="0.1d"/>
 
         <callbacks>

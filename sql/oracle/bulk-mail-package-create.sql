@@ -26,7 +26,7 @@ as
         context_id in acs_objects.context_id%TYPE default null
     ) return bulk_mail_messages.bulk_mail_id%TYPE;
 
-    procedure delete (
+    procedure del (
         bulk_mail_id in bulk_mail_messages.bulk_mail_id%TYPE
     );
 
@@ -91,7 +91,7 @@ as
 
     end new;
 
-    procedure delete (
+    procedure del (
         bulk_mail_id in bulk_mail_messages.bulk_mail_id%TYPE
     )
     is
@@ -99,11 +99,11 @@ as
 
         delete
         from bulk_mail_messages
-        where bulk_mail_messages.bulk_mail_id = bulk_mail.delete.bulk_mail_id;
+        where bulk_mail_messages.bulk_mail_id = bulk_mail.del.bulk_mail_id;
 
-        acs_object.delete(bulk_mail.delete.bulk_mail_id);
+        acs_object.del(bulk_mail.del.bulk_mail_id);
 
-    end delete;
+    end del;
 
 end bulk_mail;
 /

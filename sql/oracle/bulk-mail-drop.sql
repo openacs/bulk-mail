@@ -7,7 +7,7 @@
 
 begin
     for row in (select bulk_mail_id from bulk_mail_messages) loop
-        bulk_mail.delete(row.bulk_mail_id);
+        bulk_mail.del(row.bulk_mail_id);
     end loop;
 end;
 /

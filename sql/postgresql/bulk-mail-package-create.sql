@@ -85,5 +85,7 @@ begin
 
     perform acs_object__delete(bulk_mail__delete__bulk_mail_id);
 
+    return 0;
+
 end;
 ' language 'plpgsql';

@@ -24,7 +24,6 @@
             from bulk_mail_messages
             where bulk_mail_messages.sent_p = 'f'
             and bulk_mail_messages.send_date <= sysdate
-            for update
         </querytext>
     </fullquery>
 

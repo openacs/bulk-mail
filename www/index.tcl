@@ -22,7 +22,7 @@ set context_bar {All}
 set table_def {
     {send_date {Send Date} {bulk_mail_messages.send_date $order} {<td width="10%">[util_AnsiDatetoPrettyDate $send_date]</td>}}
     {from_addr From {bulk_mail_messages.from_addr $order} {<td width="15%">$from_addr</td>}}
-    {subject Subject {bulk_mail_messages.subject $order} {<td><a href="[site_node::get_url_from_object_id -object_id $package_id]one?bulk_mail_id=$bulk_mail_id">$subject</a></td>}}
+    {subject Subject {bulk_mail_messages.subject $order} {<td><a href="[lindex [site_node::get_url_from_object_id -object_id $package_id] 0]one?bulk_mail_id=$bulk_mail_id">$subject</a></td>}}
     {sent_p {Sent?} {bulk_mail_messages.sent_p $order} {<td width="10%" align="center">[ad_decode $sent_p t Yes No]</td>}}
 }
 

@@ -25,10 +25,11 @@ namespace eval bulk_mail {
             set package_id [ad_conn package_id]
         }
 
-        return [parameter -package_id $package_id -parameter PrettyName -default "Bulk Mail"]
+        return [parameter -localize -package_id $package_id -parameter pretty_name]
     }
 
     ad_proc -public parameter {
+        -localize:boolean
         {-package_id ""}
         {-parameter:required}
         {-default ""}
@@ -39,7 +40,7 @@ namespace eval bulk_mail {
             set package_id [package_id]
         }
 
-        return [parameter::get -package_id $package_id -parameter $parameter -default $default]
+        return [parameter::get -localize=$localize_p -package_id $package_id -parameter $parameter -default $default]
     }
 
     ad_proc -public package_id {

@@ -44,7 +44,7 @@
             <file type="query_file" path="www/one.xql"/>
         </files>
         <parameters>
-            <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="PrettyName"  default="Bulk Mail" description="Name of the package to display everywhere"/>
+            <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="pretty_name"  default="#bulk-mail.pretty_name#" description="Name of the package to display everywhere"/>
         </parameters>
 
     </version>

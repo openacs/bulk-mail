@@ -15,7 +15,7 @@
     </tr>
     <tr>
       <td>Subject</td>
-      <td><if @subject@ not nil>@subject@</if><else>&nbsp;</else></td>
+      <td><if @subject@ not nil><pre>@subject@</pre></if><else>&nbsp;</else></td>
     </tr>
     <tr>
       <td>Reply To</td>

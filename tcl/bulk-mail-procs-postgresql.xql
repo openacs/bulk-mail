@@ -13,7 +13,7 @@
 
     <fullquery name="bulk_mail::new.select_current_date">      
         <querytext>
-            select to_char(now(), :date_format)
+            select to_char(current_timestamp, :date_format)
         </querytext>
     </fullquery>
 

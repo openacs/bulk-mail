@@ -5,7 +5,7 @@
 -- @version $Id$
 --
 
-select acs_function_args('bulk_mail__new','bulk_mail_id,package_id,send_date,date_format,sent_p;f,from_addr,subject,reply_to,extra_headers,message,query,creation_date;now(),creation_user,creation_ip,context_id');
+select define_function_args('bulk_mail__new','bulk_mail_id,package_id,send_date,date_format,sent_p;f,from_addr,subject,reply_to,extra_headers,message,query,creation_date;now(),creation_user,creation_ip,context_id');
 
 create function bulk_mail__new (integer, integer, varchar, varchar, varchar, varchar, varchar, varchar, varchar, text, varchar, timestamp, integer, varchar, integer)
 returns integer as '

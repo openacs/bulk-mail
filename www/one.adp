@@ -2,6 +2,9 @@
 <property name="title">@title;noquote@</property>
 <property name="context">@context;noquote@</property>
 
+<if @status@ eq "pending">
+#bulk-mail.Message_not_sent_yet#
+</if>
   <table bgcolor="#ececec" border="1" width="95%" cellpadding="3" cellspacing="3">
     <tr>
       <td>#bulk-mail.Send_Date#</td>
@@ -32,8 +35,8 @@
       <td><if @query@ not nil><pre>@query@</pre></if><else>&nbsp;</else></td>
     </tr>
     <tr>
-      <td>#bulk-mail.Sent#</td>
-      <td><if @status@ eq sent>#bulk-mail.Yes#</if><else>#bulk-mail.No#</else></td>
+      <td>#bulk-mail.Status#</td>
+      <td><if @status@ eq sent>#bulk-mail.Sent#</if><elseif @status@ eq pending>#bulk-mail.Pending#</elseif><else>#bulk-mail.Cancelled#</else></td>
     </tr>
   </table>
 

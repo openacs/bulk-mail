@@ -16,7 +16,7 @@ create table bulk_mail_messages (
                                 references apm_packages (package_id)
                                 constraint bm_messages_package_id_nn
                                 not null,
-    send_date                   date
+    send_date                   timestamptz
                                 default now()
                                 constraint bm_messages_send_date_nn
                                 not null,
@@ -33,9 +33,14 @@ create table bulk_mail_messages (
     message                     text
                                 constraint bm_messages_message_nn
                                 not null,
-    query                       varchar(4000)
+    query                       text
                                 constraint bm_messages_query_nn
+                                not null,
+    status                      varchar(100)
+                                default 'pending'
+                                constraint bm_messages_status_nn
                                 not null
+                                
 );
 
 -- create a new object type

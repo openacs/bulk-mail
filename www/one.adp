@@ -33,7 +33,7 @@
     </tr>
     <tr>
       <td>#bulk-mail.Sent#</td>
-      <td><if @sent_p@>#bulk-mail.Yes#</if><else>#bulk-mail.No#</else></td>
+      <td><if @status@ eq sent>#bulk-mail.Yes#</if><else>#bulk-mail.No#</else></td>
     </tr>
   </table>
 

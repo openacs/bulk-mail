@@ -9,10 +9,10 @@ create view bulk_mail_messages_unsent
 as
     select bulk_mail_messages.*
     from bulk_mail_messages
-    where sent_p = 'f';
+    where status = 'pending';
 
 create view bulk_mail_messages_sent
 as
     select bulk_mail_messages.*
     from bulk_mail_messages
-    where sent_p = 't';
+    where status = 'sent';

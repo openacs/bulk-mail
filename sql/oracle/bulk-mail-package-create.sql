@@ -13,7 +13,7 @@ as
         package_id in bulk_mail_messages.package_id%TYPE,
         send_date in varchar default null,
         date_format in varchar default 'YYYY MM DD HH24 MI SS',
-        sent_p in bulk_mail_messages.sent_p%TYPE default 'f',
+        status in bulk_mail_messages.status%TYPE default 'pending',
         from_addr in bulk_mail_messages.from_addr%TYPE,
         subject in bulk_mail_messages.subject%TYPE default null,
         reply_to in bulk_mail_messages.reply_to%TYPE default null,
@@ -42,7 +42,7 @@ as
         package_id in bulk_mail_messages.package_id%TYPE,
         send_date in varchar default null,
         date_format in varchar default 'YYYY MM DD HH24 MI SS',
-        sent_p in bulk_mail_messages.sent_p%TYPE default 'f',
+        status in bulk_mail_messages.status%TYPE default 'pending',
         from_addr in bulk_mail_messages.from_addr%TYPE,
         subject in bulk_mail_messages.subject%TYPE default null,
         reply_to in bulk_mail_messages.reply_to%TYPE default null,
@@ -78,12 +78,12 @@ as
         insert
         into bulk_mail_messages
         (bulk_mail_id, package_id,
-         send_date, sent_p,
+         send_date, status,
          from_addr, subject, reply_to,
          extra_headers, message, query)
         values
         (v_bulk_mail_id, bulk_mail.new.package_id,
-         to_date(bulk_mail.new.send_date, bulk_mail.new.date_format), bulk_mail.new.sent_p,
+         to_date(bulk_mail.new.send_date, bulk_mail.new.date_format), bulk_mail.new.status,
          bulk_mail.new.from_addr, bulk_mail.new.subject, bulk_mail.new.reply_to,
          bulk_mail.new.extra_headers, bulk_mail.new.message, bulk_mail.new.query);
 

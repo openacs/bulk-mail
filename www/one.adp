@@ -7,31 +7,31 @@
   <table bgcolor="#ececec" border="1" width="95%" cellpadding="3" cellspacing="3">
     <tr>
       <td>Send Date</td>
-      <td>@send_date@</td>
+      <td><if @send_date@ not nil>@send_date@</if><else>&nbsp;</else></td>
     </tr>
     <tr>
       <td>From</td>
-      <td>@from_addr@</td>
+      <td><if @from_addr@ not nil>@from_addr@</if><else>&nbsp;</else></td>
     </tr>
     <tr>
       <td>Subject</td>
-      <td>@subject@</td>
+      <td><if @subject@ not nil>@subject@</if><else>&nbsp;</else></td>
     </tr>
     <tr>
       <td>Reply To</td>
-      <td>@reply_to@</td>
+      <td><if @reply_to@ not nil>@reply_to@</if><else>&nbsp;</else></td>
     </tr>
     <tr>
       <td>Extra Headers</td>
-      <td>@extra_headers@</td>
+      <td><if @extra_headers@ not nil>@extra_headers@</if><else>&nbsp;</else></td>
     </tr>
     <tr>
       <td>Message</td>
-      <td><pre>@message@</pre></td>
+      <td><if @message@ not nil><pre>@message@</pre></if><else>&nbsp;</else></td>
     </tr>
     <tr>
       <td>Query</td>
-      <td><pre>@query@</pre></td>
+      <td><if @query@ not nil><pre>@query@</pre></if><else>&nbsp;</else></td>
     </tr>
     <tr>
       <td>Sent?</td>

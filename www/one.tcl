@@ -21,6 +21,6 @@ set subject [ad_quotehtml $subject]
 set message [ad_quotehtml $message]
 
 set title $subject
-set context_bar [list $subject]
+set context_bar [ad_context_bar $subject]
 
 ad_return_template

@@ -2,8 +2,6 @@
 <property name="title">@title@</property>
 <property name="context_bar">@context_bar@</property>
 
-
-<center>
   <table bgcolor="#ececec" border="1" width="95%" cellpadding="3" cellspacing="3">
     <tr>
       <td>Send Date</td>
@@ -38,4 +36,3 @@
       <td><if @sent_p@>Yes</if><else>No</else></td>
     </tr>
   </table>
-</center>

@@ -1,12 +1,10 @@
 <master>
 <property name="title">@title@</property>
+<property name="context_bar">@context_bar@</property>
+<if @focus@ not nil><property name="focus">@focus@</property></if>
 
 <h2>@title@</h2>
-
-<if @context_bar@ not nil>
-  <%= [eval ad_context_bar $context_bar] %>
-</if>
-
+@context_bar@
 <hr>
 
 <slave>

@@ -16,8 +16,7 @@ set package_id [ad_conn package_id]
 
 permission::require_permission -object_id $package_id -privilege admin
 
-set title [bulk_mail::pretty_name]
-set context [list All]
+set title [string totitle [bulk_mail::pretty_name]]
 
 set table_def [list \
                    [list send_date [_ bulk-mail.Send_Date] {bulk_mail_messages.send_date $order} {<td width="10%">[lc_time_fmt $send_date "%q"]</td>}] \

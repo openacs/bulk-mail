@@ -5,6 +5,8 @@
 -- @version $Id$
 --
 
+select acs_function_args('bulk_mail__new','bulk_mail_id,package_id,send_date,date_format,sent_p;f,from_addr,subject,reply_to,extra_headers,message,query,creation_date;now(),creation_user,creation_ip,context_id');
+
 create function bulk_mail__new (integer, integer, varchar, varchar, varchar, varchar, varchar, varchar, varchar, text, varchar, timestamp, integer, varchar, integer)
 returns integer as '
 declare
@@ -25,6 +27,8 @@ declare
     bulk_mail__new__context_id alias for $15; -- default to null
     v_bulk_mail_id integer;
     v_send_date varchar(4000);
+    v_date_format varchar(4000);
+    v_sent_p boolean;
 begin
 
     v_bulk_mail_id := acs_object__new(
@@ -36,8 +40,9 @@ begin
         bulk_mail__new__context_id
     );
 
-    if bulk_mail__new__date_format is null then
-        bulk_mail__new__date_format := ''YYYY MM DD HH24 MI SS'';
+    v_date_format := bulk_mail__new__date_format;
+    if v_date_format is null then
+        v_date_format := ''YYYY MM DD HH24 MI SS'';
     end if;
 
     v_send_date := bulk_mail__new__send_date;
@@ -46,8 +51,9 @@ begin
         into v_send_date;
     end if;
 
-    if bulk_mail__new__sent_p is null then
-        bulk_mail__new__sent_p := ''f'';
+    v_sent_p := bulk_mail__new__sent_p;
+    if v_sent_p is null then
+        v_sent_p := ''f'';
     end if;
 
     insert
@@ -58,7 +64,7 @@ begin
      extra_headers, message, query)
     values
     (v_bulk_mail_id, bulk_mail__new__package_id,
-     to_date(bulk_mail__new__send_date, bulk_mail__new__date_format), bulk_mail__new__sent_p,
+     to_date(v_send_date, v_date_format), v_sent_p,
      bulk_mail__new__from_addr, bulk_mail__new__subject, bulk_mail__new__reply_to,
      bulk_mail__new__extra_headers, bulk_mail__new__message, bulk_mail__new__query);
 

@@ -7,14 +7,14 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
 
-    <version name="0.1d" url="http://openacs.org/repository/download/apm/bulk-mail-0.1d.apm">
+    <version name="0.1a" url="http://openacs.org/repository/download/apm/bulk-mail-0.1a.apm">
     <database-support>
         <database>oracle</database>
         <database>postgresql</database>
     </database-support>
         <owner url="mailto:yon@openforce.net">Yonatan Feldman</owner>
 
-        <provides url="bulk-mail" version="0.1d"/>
+        <provides url="bulk-mail" version="0.1a"/>
         <requires url="acs-mail-lite" version="0.1d"/>
 
         <files>

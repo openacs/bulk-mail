@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="bulk-mail" package_version="0.5" locale="nl_NL" charset="ISO-8859-1">
 
-  <msg key="Extra_Headers">Extra Headers</msg>
+  <msg key="Extra_Headers">Extra kopregels</msg>
   <msg key="From">Van</msg>
-  <msg key="lt_No_bulk_mail_messages">Geen berichten van groepsgewijze e-mails</msg>
+  <msg key="lt_No_bulk_mail_messages">Er zijn geen bulke-mail berichten om te tonen.</msg>
   <msg key="Message">Bericht</msg>
   <msg key="No">Nee</msg>
-  <msg key="pretty_name">Groepsgewijze E-mail</msg>
+  <msg key="pretty_name">Bulke-mail</msg>
   <msg key="Query">Vraag</msg>
-  <msg key="Reply_To">Antwoord Aan</msg>
+  <msg key="Reply_To">Antwoord naar</msg>
   <msg key="Send_Date">Verzenddatum</msg>
   <msg key="Sent">Verzonden?</msg>
   <msg key="Subject">Onderwerp</msg>

@@ -5,7 +5,7 @@
 -- @version $Id$
 --
 
-select define_function_args('bulk_mail__new','bulk_mail_id,package_id,send_date,date_format,sent_p;f,from_addr,subject,reply_to,extra_headers,message,query,creation_date;now(),creation_user,creation_ip,context_id');
+select define_function_args('bulk_mail__new','bulk_mail_id,package_id,send_date,date_format,status;pending,from_addr,subject,reply_to,extra_headers,message,query,creation_date;now(),creation_user,creation_ip,context_id');
 
 create function bulk_mail__new (integer, integer, varchar, varchar, varchar, varchar, varchar, varchar, varchar, text, varchar, timestamptz, integer, varchar, integer)
 returns integer as '
@@ -14,7 +14,7 @@ declare
     bulk_mail__new__package_id alias for $2;
     bulk_mail__new__send_date alias for $3; -- default to null
     bulk_mail__new__date_format alias for $4; -- default to "YYYY MM DD HH24 MI SS"
-    bulk_mail__new__sent_p alias for $5; -- default to "f"
+    bulk_mail__new__status alias for $5; -- default to "pending"
     bulk_mail__new__from_addr alias for $6;
     bulk_mail__new__subject alias for $7; -- default to null
     bulk_mail__new__reply_to alias for $8; -- default to null
@@ -28,7 +28,7 @@ declare
     v_bulk_mail_id integer;
     v_send_date varchar(4000);
     v_date_format varchar(4000);
-    v_sent_p boolean;
+    v_status varchar(100);
 begin
 
     v_bulk_mail_id := acs_object__new(
@@ -51,20 +51,20 @@ begin
         into v_send_date;
     end if;
 
-    v_sent_p := bulk_mail__new__sent_p;
-    if v_sent_p is null then
-        v_sent_p := ''f'';
+    v_status := bulk_mail__new__status;
+    if v_status is null then
+        v_status := ''pending'';
     end if;
 
     insert
     into bulk_mail_messages
     (bulk_mail_id, package_id,
-     send_date, sent_p,
+     send_date, status,
      from_addr, subject, reply_to,
      extra_headers, message, query)
     values
     (v_bulk_mail_id, bulk_mail__new__package_id,
-     to_date(v_send_date, v_date_format), v_sent_p,
+     to_date(v_send_date, v_date_format), v_status,
      bulk_mail__new__from_addr, bulk_mail__new__subject, bulk_mail__new__reply_to,
      bulk_mail__new__extra_headers, bulk_mail__new__message, bulk_mail__new__query);
 

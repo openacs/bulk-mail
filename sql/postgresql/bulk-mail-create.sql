@@ -35,7 +35,12 @@ create table bulk_mail_messages (
                                 not null,
     query                       text
                                 constraint bm_messages_query_nn
+                                not null,
+    status                      varchar(100)
+                                default 'pending'
+                                constraint bm_messages_status_nn
                                 not null
+                                
 );
 
 -- create a new object type

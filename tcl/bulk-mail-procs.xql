@@ -12,7 +12,7 @@
     <fullquery name="bulk_mail::sweep.mark_message_sent">      
         <querytext>
             update bulk_mail_messages
-            set sent_p = 't'
+            set status = 'sent'
             where bulk_mail_id = :bulk_mail_id
         </querytext>
     </fullquery>

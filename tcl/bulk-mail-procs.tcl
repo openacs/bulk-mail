@@ -1,10 +1,10 @@
 ad_library {
 
-    bulk mail procedure library
+    bulk_mail procedure library
 
     @author yon (yon@openforce.net)
     @creation-date 2002-05-07
-    @cvs-id $Id$
+    @version $Id$
 
 }
 
@@ -83,6 +83,7 @@ namespace eval bulk_mail {
         {-reply_to ""}
         {-extra_headers ""}
         {-message:required}
+        {-message_type ""}
         {-query:required}
     } {
         create a new bulk_mail message
@@ -106,6 +107,7 @@ namespace eval bulk_mail {
         @param message the body of the email, can be overridden by a value
                        selected in the query. will be interpolated with values
                        from the query.
+        @param message_type - "text" or "html" (added by mohan) 
         @param query a query that must select the email address to send to as
                      'email' and can select any other values that will be
                      interpolated into the subject and message of the bulk_mail for
@@ -154,8 +156,9 @@ namespace eval bulk_mail {
         ns_set put $extra_vars from_addr $from_addr
         ns_set put $extra_vars subject $subject
         ns_set put $extra_vars reply_to $reply_to
-        ns_set put $extra_vars extra_headers $extra_headers
+        ns_set put $extra_vars extra_headers "$extra_headers bulk-mail-type $message_type"
         ns_set put $extra_vars message $message
+        ns_set put $extra_vars message_type $message_type
         ns_set put $extra_vars query $query
         ns_set put $extra_vars context_id $package_id
 
@@ -170,15 +173,17 @@ namespace eval bulk_mail {
         ns_log notice "bulk_mail::sweep starting"
 
         ## JCD: this transaction is misguided since any code 
-        ## errors in any procs below would cause the messages 
+        ## errors in any procs below would cause the messages
         ## already sent to be marked unsent.  Also, it seems to 
-        ## cause locking problems on oracle 
+        ## cause locking problems on oracle
         ## (per Caroline Meeks 
         ## http://openacs.org/bugtracker/openacs/bug?bug_number=93
 
         #db_transaction {
-
             foreach bulk_mail [db_list_of_ns_sets select_bulk_mails_to_send {}] {
+		#Although the message may change for each recipiant, it usually doesn't.  We check by looking to see if message_old = the current messag.  This is inicialized here for each bulk_mail.
+		set message_old ""
+		
                 foreach recipient [db_list_of_ns_sets select_bulk_mail_recipients [ns_set get $bulk_mail query]] {
 
                     # create a list of key, value pairs that will be used to
@@ -224,18 +229,52 @@ namespace eval bulk_mail {
                         set message [ns_set get $recipient message]
                     }
 
+                    # mohan's hack to fix the passing of message type for the
+                    # mail.
+                    # Comment: I have to ask Caroline or Andrew if itis ok to 
+                    # change bulk-mail datamodel to accomodate message_type.
+
+                    set extra_headers [util_list_to_ns_set [ns_set get $bulk_mail extra_headers]]
+                    set message_type  [ns_set get $extra_headers bulk-mail-type]
+
+                    # don't need this anymore and don't want to send it along
+                    ns_set delkey $extra_headers bulk-mail-type
+
                     # interpolate the key, value pairs (as described above)
                     # into the message body
                     set message [interpolate -values $pairs -text $message]
 
-                    # send the message reliably
-                    acs_mail_lite::send \
-                        -to_addr [ns_set get $recipient email] \
-                        -from_addr $from_addr \
-                        -subject $subject \
-                        -body $message \
-                        -extraheaders [util_list_to_ns_set [ns_set get $bulk_mail extra_headers]]
+                    if {$message_type == "html"} {
+                        if {[string compare $message_old $message] != 0} {
+                            # If this message is different then the last loop 
+                            # we set up the html and text messages. Note that 
+                            # ad_html_text_convert can get quite expensive, 
+                            # if you start sending different long html 
+                            # messages created by microsoft word to each of 
+                            # over 100 users, expect performance problems.
 
+                            # the from to html closes any open tags.
+                            set message_html [ad_html_text_convert -from html -to html $message]
+                            # some mailers are chopping off the last few characters.
+                            append message_html "   "
+                            set message_text [ad_html_text_convert -from html -to text $message]
+                            set message_old $message
+                        }
+
+                        set message_data [build_mime_message $message_text $message_html]
+                        ns_set put $extra_headers MIME-Version [ns_set get $message_data MIME-Version]
+                        ns_set put $extra_headers Content-ID [ns_set get $message_data Content-ID]
+                        ns_set put $extra_headers Content-Type [ns_set get $message_data Content-Type]
+                        set message [ns_set get $message_data body]
+                    }
+
+                    # both html and plain messages can now be sent the same way
+                    acs_mail_lite::send \
+                    -to_addr [ns_set get $recipient email] \
+                    -from_addr $from_addr \
+                    -subject $subject \
+                    -body $message \
+                    -extraheaders $extra_headers
                 }
 
                 # mark the bulk_mail as sent so that we don't process it again

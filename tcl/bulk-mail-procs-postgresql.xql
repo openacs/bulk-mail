@@ -21,8 +21,9 @@
         <querytext>
             select bulk_mail_messages.*
             from bulk_mail_messages
-            where bulk_mail_messages.sent_p = 'f'
+            where bulk_mail_messages.status = 'pending'
             and bulk_mail_messages.send_date <= now()
+            for update
         </querytext>
     </fullquery>
 

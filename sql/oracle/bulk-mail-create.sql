@@ -18,12 +18,6 @@ create table bulk_mail_messages (
                                 default sysdate
                                 constraint bm_messages_send_date_nn
                                 not null,
-    sent_p                      char(1)
-                                default 'f'
-                                constraint bm_messages_sent_p_ck
-                                check (sent_p in ('t', 'f'))
-                                constraint bm_messages_sent_p_nn
-                                not null,
     from_addr                   varchar(4000)
                                 constraint bm_messages_from_addr_nn
                                 not null,
@@ -35,6 +29,12 @@ create table bulk_mail_messages (
                                 not null,
     query                       clob
                                 constraint bm_messages_query_nn
+                                not null,
+    status                      varchar2(100)
+                                default 'pending'
+                                constraint bm_messages_status_ck
+                                check (status in ('pending', 'sent'))
+                                constraint bm_messages_status_nn
                                 not null
 );
 

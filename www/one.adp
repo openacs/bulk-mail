@@ -33,6 +33,6 @@
     </tr>
     <tr>
       <td>Sent?</td>
-      <td><if @sent_p@>Yes</if><else>No</else></td>
+      <td><if @status@ eq sent>Yes</if><else>No</else></td>
     </tr>
   </table>

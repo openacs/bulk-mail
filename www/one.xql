@@ -6,7 +6,7 @@
         <querytext>
             select bulk_mail_messages.bulk_mail_id,
                    to_char(bulk_mail_messages.send_date, 'Mon DD YYYY HH24:MI') as send_date,
-                   bulk_mail_messages.sent_p,
+                   bulk_mail_messages.status,
                    bulk_mail_messages.from_addr,
                    bulk_mail_messages.subject,
                    bulk_mail_messages.reply_to,

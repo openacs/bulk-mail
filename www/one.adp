@@ -25,7 +25,7 @@
     </tr>
     <tr>
       <td>#bulk-mail.Message#</td>
-      <td><if @message@ not nil><pre>@message@</pre></if><else>&nbsp;</else></td>
+      <td><if @message@ not nil><pre>@message;noquote@</pre></if><else>&nbsp;</else></td>
     </tr>
     <tr>
       <td>#bulk-mail.Query#</td>

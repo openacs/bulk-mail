@@ -16,7 +16,7 @@ create table bulk_mail_messages (
                                 references apm_packages (package_id)
                                 constraint bm_messages_package_id_nn
                                 not null,
-    send_date                   date
+    send_date                   timestamptz
                                 default now()
                                 constraint bm_messages_send_date_nn
                                 not null,

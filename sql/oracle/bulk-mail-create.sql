@@ -33,7 +33,7 @@ create table bulk_mail_messages (
     message                     clob
                                 constraint bm_messages_message_nn
                                 not null,
-    query                       varchar(4000)
+    query                       clob
                                 constraint bm_messages_query_nn
                                 not null
 );

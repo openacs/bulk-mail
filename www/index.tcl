@@ -20,7 +20,7 @@ set title [bulk_mail::pretty_name]
 set context [list All]
 
 set table_def [list \
-    [list send_date "[_ bulk-mail.Send_Date]" {bulk_mail_messages.send_date $order} {<td width="10%">[util_AnsiDatetoPrettyDate $send_date]</td>}] \
+    [list send_date "[_ bulk-mail.Send_Date]" {bulk_mail_messages.send_date $order} {<td width="10%">[lc_time_fmt $send_date "%q"]</td>}] \
     [list from_addr "[_ bulk-mail.From]" {bulk_mail_messages.from_addr $order} {<td width="15%">$from_addr</td>}] \
     [list subject "[_ bulk-mail.Subject]" {bulk_mail_messages.subject $order} {<td><a href="[lindex [site_node::get_url_from_object_id -object_id $package_id] 0]one?bulk_mail_id=$bulk_mail_id">$subject</a></td>}] \
     [list sent_p "[_ bulk-mail.Sent]" {bulk_mail_messages.sent_p $order} {<td width="10%" align="center">[ad_decode $sent_p t [_ bulk-mail.Yes] [_ bulk-mail.No]]</td>}] \

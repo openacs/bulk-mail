@@ -1,5 +1,5 @@
-<?xml version="1.0"?>
-<message_catalog package_key="bulk-mail" package_version="0.3" locale="es_ES" charset="ISO-8859-1">
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="bulk-mail" package_version="0.5" locale="es_ES" charset="ISO-8859-1">
 
   <msg key="Extra_Headers">Otros encabezados</msg>
   <msg key="From">De</msg>

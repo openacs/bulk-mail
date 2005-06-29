@@ -33,7 +33,7 @@ create table bulk_mail_messages (
     status                      varchar2(100)
                                 default 'pending'
                                 constraint bm_messages_status_ck
-                                check (status in ('pending', 'sent'))
+                                check (status in ('pending', 'cancelled', 'sent'))
                                 constraint bm_messages_status_nn
                                 not null
 );

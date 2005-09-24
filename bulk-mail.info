@@ -7,12 +7,12 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
     
-    <version name="0.5.1d6" url="http://openacs.org/repository/download/apm/bulk-mail-0.5.1d6.apm">
+    <version name="0.5.1d7" url="http://openacs.org/repository/download/apm/bulk-mail-0.5.1d7.apm">
         <owner url="http://openacs.org">OpenACS</owner>
         <release-date>2003-11-10</release-date>
         <vendor url="http://openacs.org">OpenACS</vendor>
         <summary>Mailing form letters to groups of users.</summary>
-        <provides url="bulk-mail" version="0.5.1d6"/>
+        <provides url="bulk-mail" version="0.5.1d7"/>
         <requires url="acs-mail-lite" version="0.1d"/>
         <description format="text/html">Provides an API for sending messages to a collection of users (which can be chosen via arbitrary sql).  Mails can be personalized and can be scheduled for a later date.</description>
 

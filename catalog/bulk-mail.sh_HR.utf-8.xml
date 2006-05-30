@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog package_key="bulk-mail" package_version="0.5.1d7" locale="sh_HR" charset="utf-8">
+
+  <msg key="Cancelled">Otkazano</msg>
+  <msg key="Extra_Headers">Dodatni naslovi</msg>
+  <msg key="From">Šalje</msg>
+  <msg key="lt_No_bulk_mail_messages">Nema poruka iz mape &quot;bulk mail&quot; za prikaz</msg>
+  <msg key="Message">Poruka</msg>
+  <msg key="Message_not_sent_yet">Ova poruka još nije poslana. Možete ju &amp;lt;a href=&amp;quot;cancel?bulk_mail_id=%bulk_mail_id%&amp;quot;&amp;gt;cancel&amp;lt;/a&amp;gt;</msg>
+  <msg key="No">Ne</msg>
+  <msg key="Pending">Čeka na izvršenje</msg>
+  <msg key="pretty_name">Bulk Mail</msg>
+  <msg key="Query">Upit</msg>
+  <msg key="Reply_To">Odgovori na</msg>
+  <msg key="Send_Date">Datum slanja</msg>
+  <msg key="Sent">Poslano</msg>
+  <msg key="Status">Stanje</msg>
+  <msg key="Subject">Naslov</msg>
+  <msg key="Yes">Da</msg>
+</message_catalog>

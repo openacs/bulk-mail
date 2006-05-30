@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog package_key="bulk-mail" package_version="0.5.1d7" locale="tr_TR" charset="utf-8">
+
+  <msg key="Cancelled">Engellendi</msg>
+  <msg key="Extra_Headers">Ekstra Basliklar</msg>
+  <msg key="From">Suradan</msg>
+  <msg key="lt_No_bulk_mail_messages">Gosterilecek &quot;bulk&quot; posta mesaji yok.</msg>
+  <msg key="Message">Mesaj</msg>
+  <msg key="Message_not_sent_yet">Bu mesaj henuz gonderilemedi. &lt;a href=&quot;cancel?bulk_mail_id=%bulk_mail_id%&quot;&gt;cancel&lt;/a&gt;</msg>
+  <msg key="No">Hayir</msg>
+  <msg key="Pending">Askida</msg>
+  <msg key="pretty_name">&quot;Bulk&quot; Posta</msg>
+  <msg key="Query">Sorgulama</msg>
+  <msg key="Reply_To">Cevapla</msg>
+  <msg key="Send_Date">Gonderme Tarihi</msg>
+  <msg key="Sent">Gonderildi</msg>
+  <msg key="Status">Durum</msg>
+  <msg key="Subject">Konu</msg>
+  <msg key="Yes">Evet</msg>
+</message_catalog>

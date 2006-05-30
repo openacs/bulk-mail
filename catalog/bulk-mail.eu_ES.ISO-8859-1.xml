@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="bulk-mail" package_version="0.5.1d7" locale="eu_ES" charset="ISO-8859-1">
+
+  <msg key="Cancelled">Kantzelatuta</msg>
+  <msg key="Extra_Headers">Extra Headers</msg>
+  <msg key="From">Norengandik</msg>
+  <msg key="Message">Mezua</msg>
+  <msg key="Message_not_sent_yet">Mezu hau ez da oraindik bidali. &lt;a href=&quot;cancel?bulk_mail_id=%bulk_mail_id%&quot;&gt;Kantzelatu&lt;/a&gt; dezakezu</msg>
+  <msg key="No">Ez</msg>
+  <msg key="Pending">Itzoiten</msg>
+  <msg key="Query">Query</msg>
+  <msg key="Reply_To">Erantzun ondokoari</msg>
+  <msg key="Send_Date">Bidaltze-data</msg>
+  <msg key="Sent">Bidalita</msg>
+  <msg key="Status">Egoera</msg>
+  <msg key="Subject">Asuntoa</msg>
+  <msg key="Yes">Bai</msg>
+</message_catalog>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog package_key="bulk-mail" package_version="0.5.1d7" locale="hi_IN" charset="utf-8">
+
+  <msg key="Cancelled">रद् द करना  </msg>
+  <msg key="Extra_Headers">अतिरिक्त सिरा </msg>
+  <msg key="From">से </msg>
+  <msg key="lt_No_bulk_mail_messages">कोई अम्बार सनदेश प्रदशर्न के लिए नही हे । </msg>
+  <msg key="Message">सनदेश </msg>
+  <msg key="Message_not_sent_yet">अब तक यह सनदेश नही भेजा गया हे। आप शायद &lt;a href=&quot;cancel?bulk_mail_id=%bulk_mail_id%&quot;&gt;cancel&lt;/a&gt; it । </msg>
+  <msg key="No">नही</msg>
+  <msg key="Pending">विचाराधीन</msg>
+  <msg key="pretty_name">अम्बार सनदेश </msg>
+  <msg key="Query">अनुयोग </msg>
+  <msg key="Reply_To">को जवाब-देना </msg>
+  <msg key="Send_Date">तिथि भेजना </msg>
+  <msg key="Sent">भेजा</msg>
+  <msg key="Status">महत्व </msg>
+  <msg key="Subject">विषय </msg>
+  <msg key="Yes">हा </msg>
+</message_catalog>

@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<message_catalog package_key="bulk-mail" package_version="0.5.1d5" locale="nn_NO" charset="ISO-8859-1">
+<message_catalog package_key="bulk-mail" package_version="0.5.1d7" locale="nn_NO" charset="ISO-8859-1">
 
+  <msg key="Cancelled">Sletta</msg>
   <msg key="Extra_Headers">Ekstra headerar</msg>
   <msg key="From">Frå</msg>
   <msg key="lt_No_bulk_mail_messages">Ingen masseutsendingar å vise</msg>
   <msg key="Message">Melding</msg>
+  <msg key="Message_not_sent_yet">Denne meldinga er ikkje sendt enno. Du kan &lt;a href=&quot;cancel?bulk_mail_id=%bulk_mail_id%&quot;&gt;slette&lt;/a&gt; den.</msg>
   <msg key="No">Nei</msg>
+  <msg key="Pending">Ventar</msg>
   <msg key="pretty_name">Masseutsending</msg>
   <msg key="Query">Spørjing</msg>
   <msg key="Reply_To">Svar til</msg>
   <msg key="Send_Date">Sendedato</msg>
   <msg key="Sent">Sendt?</msg>
+  <msg key="Status">Status</msg>
   <msg key="Subject">Emne</msg>
   <msg key="Yes">Ja</msg>
 </message_catalog>

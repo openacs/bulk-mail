@@ -171,7 +171,10 @@ namespace eval bulk_mail {
     } {
         process any bulk_mails that are ready to send
     } {
-
+        if {[nsv_get bulk_mail_sweep bulk_mail_sweep] == 1} {
+            return
+        }
+        nsv_set bulk_mail_sweep bulk_mail_sweep 1
 	ns_log Debug "bulk_mail::sweep starting"
 
         ## JCD: this transaction is misguided since any code 
@@ -286,7 +289,7 @@ namespace eval bulk_mail {
                 db_dml mark_message_sent {}
             }
         #}
-
+        nsv_unset bulk_mail_sweep bulk_mail_sweep
         ns_log Debug "bulk_mail::sweep ending"
     }
 

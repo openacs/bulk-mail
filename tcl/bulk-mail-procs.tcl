@@ -289,7 +289,7 @@ namespace eval bulk_mail {
                 db_dml mark_message_sent {}
             }
         #}
-        nsv_unset bulk_mail_sweep bulk_mail_sweep
+        nsv_set bulk_mail_sweep bulk_mail_sweep 0
         ns_log Debug "bulk_mail::sweep ending"
     }
 

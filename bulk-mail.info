@@ -13,7 +13,7 @@
         <vendor url="http://openacs.org">OpenACS</vendor>
         <summary>Mailing form letters to groups of users.</summary>
         <provides url="bulk-mail" version="0.5.1d7"/>
-        <requires url="acs-mail-lite" version="0.1d"/>
+        <requires url="acs-mail-lite" version="5.3.1a1"/>
         <description format="text/html">Provides an API for sending messages to a collection of users (which can be chosen via arbitrary sql).  Mails can be personalized and can be scheduled for a later date.</description>
 
         <callbacks>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog package_key="bulk-mail" package_version="0.5.1d7" locale="el_GR" charset="utf-8">
+
+  <msg key="Cancelled">Ακυρωμένο</msg>
+  <msg key="Extra_Headers">Επιπλέον επικεφαλίδες</msg>
+  <msg key="From">Από</msg>
+  <msg key="lt_No_bulk_mail_messages">Δεν υπάρχουν μαζικά email για προβολή.</msg>
+  <msg key="Message">Μήνυμα</msg>
+  <msg key="Message_not_sent_yet">Το μήνυμα αυτό δεν έχει ακόμα αποσταλλεί. Μπορείτε &lt;a href=&quot;cancel?bulk_mail_id=%bulk_mail_id%&quot;&gt;να το ακυρώσετε&lt;/a&gt;.</msg>
+  <msg key="No">Όχι</msg>
+  <msg key="Pending">Σε αναμονή</msg>
+  <msg key="pretty_name">Μαζικά Mail</msg>
+  <msg key="Query">Αναζήτηση</msg>
+  <msg key="Reply_To">Απάντηση σε</msg>
+  <msg key="Send_Date">Ημερομηνία αποστολής</msg>
+  <msg key="Sent">Στάλθηκε</msg>
+  <msg key="Status">Κατάσταση</msg>
+  <msg key="Subject">Θέμα</msg>
+  <msg key="Yes">Ναί</msg>
+</message_catalog>

@@ -175,120 +175,114 @@ namespace eval bulk_mail {
             return
         }
         nsv_set bulk_mail_sweep bulk_mail_sweep 1
-	ns_log Debug "bulk_mail::sweep starting"
+        ns_log Debug "bulk_mail::sweep starting"
 
-        ## JCD: this transaction is misguided since any code 
-        ## errors in any procs below would cause the messages
-        ## already sent to be marked unsent.  Also, it seems to 
-        ## cause locking problems on oracle
-        ## (per Caroline Meeks 
-        ## http://openacs.org/bugtracker/openacs/bug?bug_number=93
+        foreach bulk_mail [db_list_of_ns_sets select_bulk_mails_to_send {}] {
+            #Although the message may change for each recipiant, it
+            # usually doesn't.  
+            # We check by looking to see if message_old = the current messag.  
+            # This is inicialized here for each bulk_mail.
+            set message_old ""
 
-        #db_transaction {
-            foreach bulk_mail [db_list_of_ns_sets select_bulk_mails_to_send {}] {
-		#Although the message may change for each recipiant, it usually doesn't.  We check by looking to see if message_old = the current messag.  This is inicialized here for each bulk_mail.
-		set message_old ""
+            # NOTE: JCD: the query issued here is actually stored in the 
+            # database in column bulk_mail_messages.query
+            # I am horrified by this.
+            foreach recipient [db_list_of_ns_sets select_bulk_mail_recipients [ns_set get $bulk_mail query]] {
 
-		# NOTE: JCD: the query issued here is actually stored in the database in column bulk_mail_messages.query
-		# I am horrified by this.
-                foreach recipient [db_list_of_ns_sets select_bulk_mail_recipients [ns_set get $bulk_mail query]] {
+                # create a list of key, value pairs that will be used to
+                # interpolate the subject and the message. we will search
+                # for strings of the format {column_name} in the subject
+                # and message and replace them witht the value of that
+                # column as returned by the query
+                set pairs [list]
+                for {set i 0} {$i < [ns_set size $recipient]} {incr i} {
+                    lappend pairs [list \{[ns_set key $recipient $i]\} [ns_set value $recipient $i]]
+                }
 
-                    # create a list of key, value pairs that will be used to
-                    # interpolate the subject and the message. we will search
-                    # for strings of the format {column_name} in the subject
-                    # and message and replace them witht the value of that
-                    # column as returned by the query
-                    set pairs [list]
-                    for {set i 0} {$i < [ns_set size $recipient]} {incr i} {
-                        lappend pairs [list \{[ns_set key $recipient $i]\} [ns_set value $recipient $i]]
-                    }
+                # it's possible that someone may want to override the from
+                # address on a per recepient basis
+                set from_addr [ns_set get $bulk_mail from_addr]
+                if {[ns_set find $recipient from_addr] > -1} {
+                    set from_addr [ns_set get $recipient from_addr]
+                }
 
-                    # it's possible that someone may want to override the from
-                    # address on a per recepient basis
-                    set from_addr [ns_set get $bulk_mail from_addr]
-                    if {[ns_set find $recipient from_addr] > -1} {
-                        set from_addr [ns_set get $recipient from_addr]
-                    }
+                # it's possible that someone may want to override the
+                # reply_to address on a per recepient basis
+                set reply_to [ns_set get $bulk_mail reply_to]
+                if {[ns_set find $recipient reply_to] > -1} {
+                    set reply_to [ns_set get $recipient reply_to]
+                }
 
-                    # it's possible that someone may want to override the
-                    # reply_to address on a per recepient basis
-                    set reply_to [ns_set get $bulk_mail reply_to]
-                    if {[ns_set find $recipient reply_to] > -1} {
-                        set reply_to [ns_set get $recipient reply_to]
-                    }
+                # it's possible that someone may want to override the
+                # subject on a per recepient basis
+                # create the new bulk_mail message
+                set subject [ns_set get $bulk_mail subject]
+                if {[ns_set find $recipient subject] > -1} {
+                    set subject [ns_set get $recipient subject]
+                }
 
-                    # it's possible that someone may want to override the
-                    # subject on a per recepient basis
-                    # create the new bulk_mail message
-                    set subject [ns_set get $bulk_mail subject]
-                    if {[ns_set find $recipient subject] > -1} {
-                        set subject [ns_set get $recipient subject]
-                    }
+                # interpolate the key, value pairs (as described above)
+                # into the subject
+                set subject [interpolate -values $pairs -text $subject]
 
-                    # interpolate the key, value pairs (as described above)
-                    # into the subject
-                    set subject [interpolate -values $pairs -text $subject]
+                # it's possible that someone may want to override the
+                # message on a per recepient basis
+                set message [ns_set get $bulk_mail message]
+                if {[ns_set find $recipient message] > -1} {
+                    set message [ns_set get $recipient message]
+                }
 
-                    # it's possible that someone may want to override the
-                    # message on a per recepient basis
-                    set message [ns_set get $bulk_mail message]
-                    if {[ns_set find $recipient message] > -1} {
-                        set message [ns_set get $recipient message]
-                    }
+                # mohan's hack to fix the passing of message type for the
+                # mail.
+                # Comment: I have to ask Caroline or Andrew if itis ok to 
+                # change bulk-mail datamodel to accomodate message_type.
 
-                    # mohan's hack to fix the passing of message type for the
-                    # mail.
-                    # Comment: I have to ask Caroline or Andrew if itis ok to 
-                    # change bulk-mail datamodel to accomodate message_type.
+                set extra_headers [util_list_to_ns_set [ns_set get $bulk_mail extra_headers]]
+                set message_type  [ns_set get $extra_headers bulk-mail-type]
 
-                    set extra_headers [util_list_to_ns_set [ns_set get $bulk_mail extra_headers]]
-                    set message_type  [ns_set get $extra_headers bulk-mail-type]
+                # don't need this anymore and don't want to send it along
+                ns_set delkey $extra_headers bulk-mail-type
 
-                    # don't need this anymore and don't want to send it along
-                    ns_set delkey $extra_headers bulk-mail-type
+                # interpolate the key, value pairs (as described above)
+                # into the message body
+                set message [interpolate -values $pairs -text $message]
 
-                    # interpolate the key, value pairs (as described above)
-                    # into the message body
-                    set message [interpolate -values $pairs -text $message]
+                if {$message_type == "html"} {
+                    set mime_type "text/html"
+                    if {[string compare $message_old $message] != 0} {
+                        # If this message is different then the last loop 
+                        # we set up the html and text messages. Note that 
+                        # ad_html_text_convert can get quite expensive, 
+                        # if you start sending different long html 
+                        # messages created by microsoft word to each of 
+                        # over 100 users, expect performance problems.
 
-                    if {$message_type == "html"} {
-                        if {[string compare $message_old $message] != 0} {
-                            # If this message is different then the last loop 
-                            # we set up the html and text messages. Note that 
-                            # ad_html_text_convert can get quite expensive, 
-                            # if you start sending different long html 
-                            # messages created by microsoft word to each of 
-                            # over 100 users, expect performance problems.
+                        set message_old $message
+                        # the from to html closes any open tags.
+                        set message [ad_html_text_convert -from html -to html $message]
+                        # some mailers are chopping off the last few characters.
+                        append message "   "
+                    } 
+                } else {
+                    set mime_type "text/plain"
+                }
 
-                            # the from to html closes any open tags.
-                            set message_html [ad_html_text_convert -from html -to html $message]
-                            # some mailers are chopping off the last few characters.
-                            append message_html "   "
-                            set message_text [ad_html_text_convert -from html -to text $message]
-                            set message_old $message
-                        }
-
-                        set message_data [build_mime_message $message_text $message_html]
-                        ns_set put $extra_headers MIME-Version [ns_set get $message_data MIME-Version]
-                        ns_set put $extra_headers Content-ID [ns_set get $message_data Content-ID]
-                        ns_set put $extra_headers Content-Type [ns_set get $message_data Content-Type]
-                        set message [ns_set get $message_data body]
-                    }
-
-                    # both html and plain messages can now be sent the same way
-                    acs_mail_lite::send \
+                # both html and plain messages can now be sent the same way
+                acs_mail_lite::send \
                     -to_addr [ns_set get $recipient email] \
                     -from_addr $from_addr \
                     -subject $subject \
                     -body $message \
-                    -extraheaders $extra_headers
-                }
-
-                # mark the bulk_mail as sent so that we don't process it again
-                set bulk_mail_id [ns_set get $bulk_mail bulk_mail_id]
-                db_dml mark_message_sent {}
+                    -mime_type $mime_type \
+                    -reply_to $reply_to \
+                    -extraheaders $extra_headers \
+                    -use_sender
             }
-        #}
+
+            # mark the bulk_mail as sent so that we don't process it again
+            set bulk_mail_id [ns_set get $bulk_mail bulk_mail_id]
+            db_dml mark_message_sent {}
+        }
         nsv_set bulk_mail_sweep bulk_mail_sweep 0
         ns_log Debug "bulk_mail::sweep ending"
     }

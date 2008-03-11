@@ -5,7 +5,7 @@
 <if @status@ eq "pending">
 #bulk-mail.Message_not_sent_yet#
 </if>
-  <table bgcolor="#ececec" border="1" width="95%" cellpadding="3" cellspacing="3">
+  <table style="background-color:#ececec" border="1" width="95%" cellpadding="3" cellspacing="3">
     <tr>
       <td>#bulk-mail.Send_Date#</td>
       <td><if @send_date@ not nil>@send_date@</if><else>&nbsp;</else></td>

@@ -33,7 +33,7 @@ set sql "
 "
 
 set table [ad_table \
-    -Tmissing_text "<blockquote><i>[_ bulk-mail.lt_No_bulk_mail_messages]</i></blockquote>" \
+    -Tmissing_text "<p><em>[_ bulk-mail.lt_No_bulk_mail_messages]</em></p>" \
     -Torderby $orderby \
     -Ttable_extra_html {width="95%"} \
     select_bulk_mail_messages \

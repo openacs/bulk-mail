@@ -64,7 +64,7 @@ begin
      extra_headers, message, query)
     values
     (v_bulk_mail_id, bulk_mail__new__package_id,
-     to_date(v_send_date, v_date_format), v_status,
+     to_timestamp(v_send_date, v_date_format), v_status,
      bulk_mail__new__from_addr, bulk_mail__new__subject, bulk_mail__new__reply_to,
      bulk_mail__new__extra_headers, bulk_mail__new__message, bulk_mail__new__query);
 

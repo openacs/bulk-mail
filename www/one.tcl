@@ -5,7 +5,7 @@ ad_page_contract {
     @cvs-id $Id$
 
 } -query {
-    bulk_mail_id:integer,notnull
+    bulk_mail_id:naturalnum,notnull
 } -properties {
     title:onevalue
     context:onevalue

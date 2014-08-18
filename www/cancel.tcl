@@ -5,7 +5,7 @@ ad_page_contract {
     @cvs-id $Id$
 
 } -query {
-    bulk_mail_id:integer,notnull
+    bulk_mail_id:naturalnum,notnull
 } -validate {
     message_pending -requires {bulk_mail_id:notnull} {
 	if { [db_string bulk_mail_message_status "select status from bulk_mail_messages where bulk_mail_id=$bulk_mail_id"] ne "pending" } {

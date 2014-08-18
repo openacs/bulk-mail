@@ -10,7 +10,7 @@
     <version name="2.8.1a1" url="http://openacs.org/repository/download/apm/bulk-mail-2.8.1a1.apm">
         <owner url="http://openacs.org">OpenACS</owner>
         <release-date>2003-11-10</release-date>
-        <vendor url="http://dotlrn.org">DotLRN Consortium</vendor>
+        <vendor url="http://openacs.org">OpenACS</vendor>
         <maturity>2</maturity>
         <summary>Mailing form letters to groups of users.</summary>
         <description format="text/html">Provides an API for sending messages to a collection of users (which can be chosen via arbitrary sql).  Mails can be personalized and can be scheduled for a later date.</description>

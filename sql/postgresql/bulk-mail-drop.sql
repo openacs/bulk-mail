@@ -15,11 +15,12 @@ begin
         perform bulk_mail__delete(row.bulk_mail_id);
     end loop;
 
-    perform acs_object_type__drop_type(''bulk_mail_message'', ''f'');
+    perform acs_object_type__drop_type('bulk_mail_message', 'f');
 
     return null;
 
-end;' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 
 select inline_0();
 

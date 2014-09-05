@@ -5,11 +5,11 @@
 -- @version $Id$
 --
 
-create function inline_0 ()
-returns integer as'
-declare
+CREATE FUNCTION inline_0 ()
+RETURNS integer AS $$
+DECLARE
     row RECORD;
-begin
+BEGIN
 
     for row in select bulk_mail_id from bulk_mail_messages loop
         perform bulk_mail__delete(row.bulk_mail_id);

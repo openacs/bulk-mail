@@ -8,7 +8,7 @@
 
 -- old define_function_args('bulk_mail__new','bulk_mail_id,package_id,send_date,date_format,status;pending,from_addr,subject,reply_to,extra_headers,message,query,creation_date;now(),creation_user,creation_ip,context_id')
 -- new
-select define_function_args('bulk_mail__new','new__bulk_mail_id;to null,new__package_id,new__send_date;to null,new__date_format;to "YYYY MM DD HH24 MI SS",new__status;pending,new__from_addr,new__subject;to null,new__reply_to;to null,new__extra_headers;to null,new__message,new__query,new__creation_date;now(),new__creation_user;to null,new__creation_ip;to null,new__context_id;to null');
+select define_function_args('bulk_mail__new','new__bulk_mail_id;null,new__package_id,new__send_date;null,new__date_format;to "YYYY MM DD HH24 MI SS",new__status;pending,new__from_addr,new__subject;null,new__reply_to;null,new__extra_headers;null,new__message,new__query,new__creation_date;now(),new__creation_user;null,new__creation_ip;null,new__context_id;null');
 
 
 

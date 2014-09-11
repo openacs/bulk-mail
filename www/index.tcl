@@ -5,7 +5,7 @@ ad_page_contract {
     @cvs-id $Id$
 
 } -query {
-    {orderby "send_date*,subject"}
+    {orderby "send_date"}
 } -properties {
     title:onevalue
     context:onevalue
@@ -18,27 +18,38 @@ permission::require_permission -object_id $package_id -privilege admin
 
 set title [string totitle [bulk_mail::pretty_name]]
 
-set table_def [list \
-                   [list send_date [_ bulk-mail.Send_Date] {bulk_mail_messages.send_date $order} {<td style="width:10%">[lc_time_fmt $send_date "%q"]</td>}] \
-                   [list from_addr [_ bulk-mail.From] {bulk_mail_messages.from_addr $order} {<td style="width:15%">$from_addr</td>}] \
-                   [list subject [_ bulk-mail.Subject] {bulk_mail_messages.subject $order} {<td><a href="[lindex [site_node::get_url_from_object_id -object_id $package_id] 0]one?bulk_mail_id=$bulk_mail_id">$subject</a></td>}] \
-                   [list status [_ bulk-mail.Status] {bulk_mail_messages.status $order} {<td style="width:10%" align="center">[ad_decode $status sent [_ bulk-mail.Sent] pending [_ bulk-mail.Pending] [_ bulk-mail.Cancelled]]</td>}] \
-                  ]
+template::list::create -name messages \
+    -multirow message_list \
+    -no_data "<p><em>[_ bulk-mail.lt_No_bulk_mail_messages]</em></p>" \
+    -html {width "95%"} \
+    -elements {
+	send_date {
+	    label "#bulk-mail.Send_Date#"
+	    display_col send_date_pretty
+	    orderby send_date
+	    html {style "width:10%"}
+	}
+	from_addr {
+	    label "#bulk-mail.From#"
+	    orderby from_addr
+	    html {style "width:15%"}
+	}
+	subject {
+	    label "#bulk-mail.Subject#"
+	    link_url_col message_url
+	    orderby subject
+	}
+	status_pretty {
+	    label "#bulk-mail.Status#"
+	    html {style "width:10%" align "center"}
+	    orderby status
+	}
+    }
 
-set sql "
-    select bulk_mail_messages.*
-    from bulk_mail_messages
-    where bulk_mail_messages.package_id = :package_id
-    [ad_order_by_from_sort_spec $orderby $table_def]
-"
-
-set table [ad_table \
-    -Tmissing_text "<p><em>[_ bulk-mail.lt_No_bulk_mail_messages]</em></p>" \
-    -Torderby $orderby \
-    -Ttable_extra_html {width="95%"} \
-    select_bulk_mail_messages \
-    $sql \
-    $table_def \
-]
+db_multirow -extend {send_date_pretty message_url status_pretty} message_list get_mail_messages {} {
+    set send_date_pretty [lc_time_fmt $send_date %q]
+    set message_url "[lindex [site_node::get_url_from_object_id -object_id $package_id] 0]one?bulk_mail_id=$bulk_mail_id"
+    set status_pretty [ad_decode $status sent [_ bulk-mail.Sent] pending [_ bulk-mail.Pending] [_ bulk-mail.Cancelled]]
+}
 
 ad_return_template

@@ -20,7 +20,7 @@ set title [string totitle [bulk_mail::pretty_name]]
 
 template::list::create -name messages \
     -multirow message_list \
-    -no_data "<p><em>[_ bulk-mail.lt_No_bulk_mail_messages]</em></p>" \
+    -no_data "[_ bulk-mail.lt_No_bulk_mail_messages]" \
     -html {width "95%"} \
     -elements {
 	send_date {

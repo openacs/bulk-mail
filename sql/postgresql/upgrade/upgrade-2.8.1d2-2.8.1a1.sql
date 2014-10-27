@@ -1,0 +1,2 @@
+select define_function_args('bulk_mail__new','bulk_mail_id;null,package_id,send_date;null,date_format;to "YYYY MM DD HH24 MI SS",status;pending,from_addr,subject;null,reply_to;null,extra_headers;null,message,query,creation_date;now(),creation_user;null,creation_ip;null,context_id;null');
+select define_function_args('bulk_mail__delete','bulk_mail_id');

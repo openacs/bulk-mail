@@ -4,7 +4,7 @@ ad_library {
 
     @author yon (yon@openforce.net)
     @creation-date 2002-05-07
-    @version $Id$
+    @cvs-id $Id$
 
 }
 
@@ -21,7 +21,7 @@ namespace eval bulk_mail {
     } {
         return the pretty name of this instance
     } {
-        if {[empty_string_p $package_id]} {
+        if {$package_id eq ""} {
             set package_id [ad_conn package_id]
         }
 
@@ -36,7 +36,7 @@ namespace eval bulk_mail {
     } {
         returns the bulk_mail parameter value for the given parameter
     } {
-        if {[empty_string_p $package_id]} {
+        if {$package_id eq ""} {
             set package_id [package_id]
         }
 
@@ -135,17 +135,17 @@ namespace eval bulk_mail {
         }
 
         # default the package_id to the appropriate value
-        if {[empty_string_p $package_id]} {
+        if {$package_id eq ""} {
             set package_id [ad_conn package_id]
         }
 
         # set a reasonable default for send_date
-        if {[empty_string_p $send_date]} {
+        if {$send_date eq ""} {
             set send_date [db_string select_current_date {}]
         }
 
         # set a reasonable default for the reply_to header
-        if {[empty_string_p $reply_to]} {
+        if {$reply_to eq ""} {
             set reply_to $from_addr
         }
 
@@ -247,9 +247,9 @@ namespace eval bulk_mail {
                 # into the message body
                 set message [interpolate -values $pairs -text $message]
 
-                if {$message_type == "html"} {
+                if {$message_type eq "html"} {
                     set mime_type "text/html"
-                    if {[string compare $message_old $message] != 0} {
+                    if {$message_old ne $message } {
                         # If this message is different then the last loop 
                         # we set up the html and text messages. Note that 
                         # ad_html_text_convert can get quite expensive, 

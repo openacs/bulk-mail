@@ -1,5 +1,5 @@
 <master>
-<property name="title">@title;noquote@</property>
+<property name="title">@title;literal@</property>
 <property name="context"></property>
 
 <center>

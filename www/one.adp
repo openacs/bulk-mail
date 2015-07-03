@@ -1,6 +1,6 @@
 <master>
-<property name="title">@title;noquote@</property>
-<property name="context">@context;noquote@</property>
+<property name="title">@title;literal@</property>
+<property name="context">@context;literal@</property>
 
 <if @status@ eq "pending">
 #bulk-mail.Message_not_sent_yet#

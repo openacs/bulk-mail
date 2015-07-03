@@ -1,5 +1,5 @@
 <master>
-<property name="title">@title;literal@</property>
+<property name="doc(title)">@title;literal@</property>
 <property name="context">@context;literal@</property>
 
 <if @status@ eq "pending">

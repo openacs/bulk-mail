@@ -17,8 +17,8 @@ set package_id [ad_conn package_id]
 
 db_1row select_message_info {}
 
-set subject [ad_quotehtml $subject]
-set message [ad_quotehtml $message]
+set subject [ns_quotehtml $subject]
+set message [ns_quotehtml $message]
 
 set title $subject
 set context [list $subject]

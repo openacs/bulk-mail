@@ -277,8 +277,8 @@ namespace eval bulk_mail {
                     -reply_to $reply_to \
                     -extraheaders $extra_headers \
                     -use_sender \
-                    -package_id $package_id \
-                    -object_id $bulk_mail_id
+                    -package_id [ns_set get $bulk_mail package_id] \
+                    -object_id [ns_set get $bulk_mail bulk_mail_id]
             }
 
             # mark the bulk_mail as sent so that we don't process it again

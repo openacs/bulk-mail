@@ -5,7 +5,7 @@ ad_page_contract {
     @cvs-id $Id$
 
 } -query {
-    {orderby "send_date"}
+    {orderby:token "send_date"}
 } -properties {
     title:onevalue
     context:onevalue
@@ -53,3 +53,9 @@ db_multirow -extend {send_date_pretty message_url status_pretty} message_list ge
 }
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

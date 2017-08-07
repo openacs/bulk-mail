@@ -19,3 +19,8 @@ permission::require_permission -object_id $bulk_mail_id -privilege admin
 db_dml cancel_bulk_mail_message {}
 
 ad_returnredirect "index"
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

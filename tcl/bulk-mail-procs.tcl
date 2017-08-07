@@ -200,21 +200,21 @@ namespace eval bulk_mail {
                 }
 
                 # it's possible that someone may want to override the from
-                # address on a per recepient basis
+                # address on a per recipient basis
                 set from_addr [ns_set get $bulk_mail from_addr]
                 if {[ns_set find $recipient from_addr] > -1} {
                     set from_addr [ns_set get $recipient from_addr]
                 }
 
                 # it's possible that someone may want to override the
-                # reply_to address on a per recepient basis
+                # reply_to address on a per recipient basis
                 set reply_to [ns_set get $bulk_mail reply_to]
                 if {[ns_set find $recipient reply_to] > -1} {
                     set reply_to [ns_set get $recipient reply_to]
                 }
 
                 # it's possible that someone may want to override the
-                # subject on a per recepient basis
+                # subject on a per recipient basis
                 # create the new bulk_mail message
                 set subject [ns_set get $bulk_mail subject]
                 if {[ns_set find $recipient subject] > -1} {
@@ -226,7 +226,7 @@ namespace eval bulk_mail {
                 set subject [interpolate -values $pairs -text $subject]
 
                 # it's possible that someone may want to override the
-                # message on a per recepient basis
+                # message on a per recipient basis
                 set message [ns_set get $bulk_mail message]
                 if {[ns_set find $recipient message] > -1} {
                     set message [ns_set get $recipient message]
@@ -235,7 +235,7 @@ namespace eval bulk_mail {
                 # mohan's hack to fix the passing of message type for the
                 # mail.
                 # Comment: I have to ask Caroline or Andrew if itis ok to 
-                # change bulk-mail datamodel to accomodate message_type.
+                # change bulk-mail datamodel to accommodate message_type.
 
                 set extra_headers [util_list_to_ns_set [ns_set get $bulk_mail extra_headers]]
                 set message_type  [ns_set get $extra_headers bulk-mail-type]
@@ -276,7 +276,9 @@ namespace eval bulk_mail {
                     -mime_type $mime_type \
                     -reply_to $reply_to \
                     -extraheaders $extra_headers \
-                    -use_sender
+                    -use_sender \
+                    -package_id [ns_set get $bulk_mail package_id] \
+                    -object_id [ns_set get $bulk_mail bulk_mail_id]
             }
 
             # mark the bulk_mail as sent so that we don't process it again
@@ -307,3 +309,9 @@ namespace eval bulk_mail {
     }
 
 }
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

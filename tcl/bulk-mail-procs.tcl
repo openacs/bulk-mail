@@ -178,10 +178,10 @@ namespace eval bulk_mail {
         ns_log Debug "bulk_mail::sweep starting"
 
         foreach bulk_mail [db_list_of_ns_sets select_bulk_mails_to_send {}] {
-            #Although the message may change for each recipiant, it
-            # usually doesn't.  
-            # We check by looking to see if message_old = the current messag.  
-            # This is inicialized here for each bulk_mail.
+            #Although the message may change for each recipient, it
+            # usually doesn't.
+            # We check by looking to see if message_old = the current message.
+            # This is initialized here for each bulk_mail.
             set message_old ""
 
             # NOTE: JCD: the query issued here is actually stored in the 

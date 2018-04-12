@@ -108,11 +108,11 @@ namespace eval bulk_mail {
         @param message the body of the email, can be overridden by a value
                        selected in the query. will be interpolated with values
                        from the query.
-        @param message_type - "text" or "html" (added by mohan) 
+        @param message_type - "text" or "html" (added by mohan)
         @param query a query that must select the email address to send to as
                      'email' and can select any other values that will be
                      interpolated into the subject and message of the bulk_mail for
-                     each recipient. if column 'foo' is selected it's value
+                     each recipient. if column 'foo' is selected its value
                      will be interpolated anywhere that '{foo}' appears in the
                      subject or message of the bulk_mail. if columns 'from_addr',
                      'reply_to', 'subject', or 'message' are selected, their

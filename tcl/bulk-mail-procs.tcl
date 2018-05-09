@@ -194,7 +194,7 @@ namespace eval bulk_mail {
                 # for strings of the format {column_name} in the subject
                 # and message and replace them with the value of that
                 # column as returned by the query
-                set pairs {}
+                set pairs [list]
                 for {set i 0} {$i < [ns_set size $recipient]} {incr i} {
                     lappend pairs [list \{[ns_set key $recipient $i]\} [ns_set value $recipient $i]]
                 }

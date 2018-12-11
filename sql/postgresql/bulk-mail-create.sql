@@ -42,8 +42,9 @@ create table bulk_mail_messages (
                                 check (status in ('pending', 'cancelled', 'sent'))
                                 constraint bm_messages_status_nn
                                 not null
-                                
 );
+
+CREATE INDEX bm_messages_status_idx ON bulk_mail_messages(status);
 
 -- create a new object type
 CREATE OR REPLACE FUNCTION inline_0 () RETURNS integer AS $$

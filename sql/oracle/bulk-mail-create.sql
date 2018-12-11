@@ -37,6 +37,7 @@ create table bulk_mail_messages (
                                 constraint bm_messages_status_nn
                                 not null
 );
+CREATE INDEX bm_messages_status_idx ON bulk_mail_messages(status);
 
 -- create a new object type
 begin

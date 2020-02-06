@@ -184,7 +184,7 @@ namespace eval bulk_mail {
             # This is initialized here for each bulk_mail.
             set message_old ""
 
-            # NOTE: JCD: the query issued here is actually stored in the 
+            # NOTE: JCD: the query issued here is actually stored in the
             # database in column bulk_mail_messages.query
             # I am horrified by this.
             foreach recipient [db_list_of_ns_sets select_bulk_mail_recipients [ns_set get $bulk_mail query]] {
@@ -234,7 +234,7 @@ namespace eval bulk_mail {
 
                 # mohan's hack to fix the passing of message type for the
                 # mail.
-                # Comment: I have to ask Caroline or Andrew if itis ok to 
+                # Comment: I have to ask Caroline or Andrew if itis ok to
                 # change bulk-mail datamodel to accommodate message_type.
 
                 set extra_headers [util_list_to_ns_set [ns_set get $bulk_mail extra_headers]]
@@ -250,11 +250,11 @@ namespace eval bulk_mail {
                 if {$message_type eq "html"} {
                     set mime_type "text/html"
                     if {$message_old ne $message } {
-                        # If this message is different then the last loop 
-                        # we set up the html and text messages. Note that 
-                        # ad_html_text_convert can get quite expensive, 
-                        # if you start sending different long html 
-                        # messages created by microsoft word to each of 
+                        # If this message is different then the last loop
+                        # we set up the html and text messages. Note that
+                        # ad_html_text_convert can get quite expensive,
+                        # if you start sending different long html
+                        # messages created by microsoft word to each of
                         # over 100 users, expect performance problems.
 
                         set message_old $message
@@ -262,7 +262,7 @@ namespace eval bulk_mail {
                         set message [ad_html_text_convert -from html -to html $message]
                         # some mailers are chopping off the last few characters.
                         append message "   "
-                    } 
+                    }
                 } else {
                     set mime_type "text/plain"
                 }

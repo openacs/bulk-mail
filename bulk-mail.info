@@ -7,7 +7,7 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
     
-    <version name="2.10.0d1" url="http://openacs.org/repository/download/apm/bulk-mail-2.10.0d1.apm">
+    <version name="2.10.0d2" url="http://openacs.org/repository/download/apm/bulk-mail-2.10.0d2.apm">
         <owner url="http://openacs.org">OpenACS</owner>
         <release-date>2017-08-06</release-date>
         <vendor url="http://dotlrn.org">DotLRN Consortium</vendor>
@@ -16,7 +16,7 @@
         <description format="text/html">Provides an API for sending messages to a collection of users (which can be chosen via arbitrary sql).  Mails can be personalized and can be scheduled for a later date.</description>
 
 
-        <provides url="bulk-mail" version="2.10.0d1"/>
+        <provides url="bulk-mail" version="2.10.0d2"/>
         <requires url="acs-mail-lite" version="5.9.1"/>
 
         <callbacks>

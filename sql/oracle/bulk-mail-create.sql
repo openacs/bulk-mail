@@ -30,6 +30,7 @@ create table bulk_mail_messages (
     query                       clob
                                 constraint bm_messages_query_nn
                                 not null,
+    to_display_name             text,
     status                      varchar2(100)
                                 default 'pending'
                                 constraint bm_messages_status_ck

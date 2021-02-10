@@ -36,6 +36,7 @@ create table bulk_mail_messages (
     query                       text
                                 constraint bm_messages_query_nn
                                 not null,
+    to_display_name             text,
     status                      varchar(100)
                                 default 'pending'
                                 constraint bm_messages_status_ck

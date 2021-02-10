@@ -86,6 +86,7 @@ namespace eval bulk_mail {
         {-message:required}
         {-message_type ""}
         {-query:required}
+        {-to_display_name ""}
     } {
         create a new bulk_mail message
 
@@ -119,6 +120,11 @@ namespace eval bulk_mail {
                      respective values will also become the 'from_addr',
                      'reply_to', 'subject', and 'message' on a per recipient
                      basis.
+        @param to_display_name Display name set for the recipient in
+                               the To: email header, useful to qualify
+                               the individual recipient as e.g. member
+                               of the group of people who have
+                               received the bulk_mail message.
 
         @return bulk_mail_id the id of the newly created bulk_mail message
     } {
@@ -169,7 +175,8 @@ namespace eval bulk_mail {
              reply_to,
              extra_headers,
              message,
-             query
+             query,
+             to_display_name
              )
             values
             (
@@ -183,7 +190,8 @@ namespace eval bulk_mail {
              :reply_to,
              :extra_headers,
              :message,
-             :query
+             :query,
+             :to_display_name
              )
         }
 
@@ -290,9 +298,18 @@ namespace eval bulk_mail {
                     set mime_type "text/plain"
                 }
 
+                set to_addr [ns_set get $recipient email]
+                set to_display_name [ns_set get $bulk_mail to_display_name]
+                if {$to_display_name ne ""} {
+                    # If a display name has been specified, include it in
+                    # the recipient address.
+                    regsub -all "\"" $to_display_name "\\\"" to_display_name
+                    set to_addr [subst -nocommands {"${to_display_name}" <${to_addr}>}]
+                }
+
                 # both html and plain messages can now be sent the same way
                 acs_mail_lite::send \
-                    -to_addr [ns_set get $recipient email] \
+                    -to_addr $to_addr \
                     -from_addr $from_addr \
                     -subject $subject \
                     -body $message \

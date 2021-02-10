@@ -139,32 +139,55 @@ namespace eval bulk_mail {
             set package_id [ad_conn package_id]
         }
 
-        # set a reasonable default for send_date
-        if {$send_date eq ""} {
-            set send_date [db_string select_current_date {}]
-        }
-
         # set a reasonable default for the reply_to header
         if {$reply_to eq ""} {
             set reply_to $from_addr
         }
 
         # prepare the data
-        set extra_vars [ns_set create]
-        ns_set put $extra_vars package_id $package_id
-        ns_set put $extra_vars send_date $send_date
-        ns_set put $extra_vars date_format $date_format
-        ns_set put $extra_vars from_addr $from_addr
-        ns_set put $extra_vars subject $subject
-        ns_set put $extra_vars reply_to $reply_to
-        ns_set put $extra_vars extra_headers "$extra_headers bulk-mail-type $message_type"
-        ns_set put $extra_vars message $message
-        ns_set put $extra_vars message_type $message_type
-        ns_set put $extra_vars query $query
-        ns_set put $extra_vars context_id $package_id
+        if {[ns_conn isconnected]} {
+            set creation_user [ad_conn user_id]
+            set creation_ip   [ad_conn peeraddr]
+        } else {
+            set creation_user ""
+            set creation_ip   ""
+        }
 
-        # create the new bulk_mail message
-        return [package_instantiate_object -extra_vars $extra_vars "bulk_mail_message"]
+        set object_id [db_exec_plsql create_object {}]
+
+        set extra_headers "$extra_headers bulk-mail-type $message_type"
+
+        db_dml insert_metadata {
+            insert into bulk_mail_messages
+            (
+             bulk_mail_id,
+             package_id,
+             send_date,
+             status,
+             from_addr,
+             subject,
+             reply_to,
+             extra_headers,
+             message,
+             query
+             )
+            values
+            (
+             :object_id,
+             :package_id,
+             to_timestamp(cast(coalesce(:send_date, current_timestamp) as text),
+                          coalesce(:date_format, 'YYYY MM DD HH24 MI SS')),
+             'pending',
+             :from_addr,
+             :subject,
+             :reply_to,
+             :extra_headers,
+             :message,
+             :query
+             )
+        }
+
+        return $object_id
     }
 
     ad_proc -private sweep {

@@ -182,7 +182,7 @@ namespace eval bulk_mail {
             (
              :object_id,
              :package_id,
-             to_timestamp(cast(coalesce(:send_date, current_timestamp) as text),
+             to_timestamp(coalesce(cast(:send_date as text), cast(current_timestamp as text)),
                           coalesce(:date_format, 'YYYY MM DD HH24 MI SS')),
              'pending',
              :from_addr,

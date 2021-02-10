@@ -309,7 +309,7 @@ namespace eval bulk_mail {
 
                 # both html and plain messages can now be sent the same way
                 acs_mail_lite::send \
-                    -to_addr $to_addr \
+                    -to_addr [list $to_addr] \
                     -from_addr $from_addr \
                     -subject $subject \
                     -body $message \

@@ -75,6 +75,18 @@ aa_register_case \
         }
 }
 
+aa_register_case -cats {
+        api
+        smoke
+        production_safe
+    } -procs {
+        bulk_mail::package_key
+    } bulk_mail__keys {
+        Trivial test for the package_key proc.
+} {
+        aa_equals "Package key" "[bulk_mail::package_key]" "bulk-mail"
+}
+
 # Local variables:
 #    mode: tcl
 #    tcl-indent-level: 4

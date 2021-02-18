@@ -12,9 +12,9 @@ aa_register_case \
     bulk_mail_new {
         Basic check that Bulk Mail scheduling works
     } {
-	aa_run_with_teardown \
-	    -rollback \
-	    -test_code {
+        aa_run_with_teardown \
+            -rollback \
+            -test_code {
 
                 set user_id [ad_conn user_id]
                 set from_addr [party::email -party_id $user_id]
@@ -72,6 +72,11 @@ aa_register_case \
                         where bulk_mail_id = :bm_id
                         and query = :query
                     }]
+        }
+}
 
-	    }
-    }
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

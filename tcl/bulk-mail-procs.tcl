@@ -227,7 +227,7 @@ namespace eval bulk_mail {
                 # column as returned by the query
                 set pairs [list]
                 for {set i 0} {$i < [ns_set size $recipient]} {incr i} {
-                    lappend pairs [list \{[ns_set key $recipient $i]\} [ns_set value $recipient $i]]
+                    lappend pairs "\{[ns_set key $recipient $i]\}" "[ns_set value $recipient $i]"
                 }
 
                 # it's possible that someone may want to override the from
@@ -254,7 +254,7 @@ namespace eval bulk_mail {
 
                 # interpolate the key, value pairs (as described above)
                 # into the subject
-                set subject [interpolate -values $pairs -text $subject]
+                set subject [string map $pairs $subject]
 
                 # it's possible that someone may want to override the
                 # message on a per recipient basis
@@ -276,7 +276,7 @@ namespace eval bulk_mail {
 
                 # interpolate the key, value pairs (as described above)
                 # into the message body
-                set message [interpolate -values $pairs -text $message]
+                set message [string map $pairs $message]
 
                 if {$message_type eq "html"} {
                     set mime_type "text/html"
@@ -329,11 +329,15 @@ namespace eval bulk_mail {
         ns_log Debug "bulk_mail::sweep ending"
     }
 
-    ad_proc -private interpolate {
+    ad_proc -deprecated -private interpolate {
         {-values:required}
         {-text:required}
     } {
         Interpolates a set of values into a string.
+
+        DEPRECATED: can be replaced by "string map"
+
+        @see "string map"
 
         @param values a list of key, value pairs, each one consisting of a
                       target string and the value it is to be replaced with.

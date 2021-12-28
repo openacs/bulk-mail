@@ -226,8 +226,8 @@ namespace eval bulk_mail {
                 # and message and replace them with the value of that
                 # column as returned by the query
                 set pairs [list]
-                for {set i 0} {$i < [ns_set size $recipient]} {incr i} {
-                    lappend pairs "\{[ns_set key $recipient $i]\}" "[ns_set value $recipient $i]"
+                foreach {key value} [ns_set array $recipient] {
+                    lappend pairs "\{$key\}" $value
                 }
 
                 # it's possible that someone may want to override the from

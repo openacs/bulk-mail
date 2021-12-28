@@ -268,7 +268,7 @@ namespace eval bulk_mail {
                 # Comment: I have to ask Caroline or Andrew if itis ok to
                 # change bulk-mail datamodel to accommodate message_type.
 
-                set extra_headers [util_list_to_ns_set [ns_set get $bulk_mail extra_headers]]
+                set extra_headers [ns_set create s {*}[ns_set get $bulk_mail extra_headers]]
                 set message_type  [ns_set get $extra_headers bulk-mail-type]
 
                 # don't need this anymore and don't want to send it along

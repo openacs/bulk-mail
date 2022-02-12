@@ -1,5 +1,5 @@
 
-alter table bulk_mail_messages add column to_display_name text;
+alter table bulk_mail_messages add to_display_name text;
 
 drop view bulk_mail_messages_unsent;
 

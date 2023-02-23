@@ -76,15 +76,31 @@ aa_register_case \
 }
 
 aa_register_case -cats {
-        api
-        smoke
-        production_safe
-    } -procs {
-        bulk_mail::package_key
-    } bulk_mail__keys {
-        Trivial test for the package_key proc.
+    api
+    smoke
+    production_safe
+} -procs {
+    bulk_mail::package_key
+    bulk_mail::package_id
+    bulk_mail::url
+} bulk_mail_immutable_api {
+    Test api returning immutable info about the package.
 } {
-        aa_equals "Package key" "[bulk_mail::package_key]" "bulk-mail"
+    set package_key [bulk_mail::package_key]
+    aa_equals "Package key" $package_key "bulk-mail"
+
+    set package_id [bulk_mail::package_id]
+    aa_equals "Package id" \
+        $package_id \
+        [db_string get_package {
+            select min(package_id)
+            from apm_packages
+            where package_key = :package_key
+        }]
+
+    aa_equals "URL" \
+        [bulk_mail::url] \
+        [site_node::get_url_from_object_id -object_id $package_id]
 }
 
 # Local variables:

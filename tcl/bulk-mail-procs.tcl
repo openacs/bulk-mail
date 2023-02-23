@@ -72,20 +72,10 @@ namespace eval bulk_mail {
         return [db_string select_bulk_mail_package_id {}]
     }
 
-    ad_proc -public url {
+    ad_proc -public url {} {
+        @return the base URL of the top most bulk-mail package.
     } {
-        returns the base url of the top most bulk_mail package
-    } {
-        return [util_memoize {bulk_mail::url_not_cached}]
-    }
-
-    ad_proc -private url_not_cached {
-    } {
-        returns the base url of the top most bulk_mail package
-    } {
-        set package_id [package_id]
-
-        return [db_string select_bulk_mail_url {}]
+        return [site_node::get_url_from_object_id -object_id [bulk_mail::package_id]]
     }
 
     ad_proc -public new {

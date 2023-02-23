@@ -16,10 +16,17 @@ namespace eval bulk_mail {
         return "bulk-mail"
     }
 
-    ad_proc -public pretty_name {
+    ad_proc -deprecated pretty_name {
         {package_id ""}
     } {
         return the pretty name of this instance
+
+        DEPRECATED: this proc is a trivial wrapper to the parameter
+        api. Furthermore, one has to make sure that the supplied
+        package_id is actually an instance of bulk-mail or the
+        returned value will be unspecified.
+
+        @see parameter::get
     } {
         if {$package_id eq ""} {
             set package_id [ad_conn package_id]

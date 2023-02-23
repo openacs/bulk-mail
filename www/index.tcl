@@ -16,7 +16,7 @@ set package_id [ad_conn package_id]
 
 permission::require_permission -object_id $package_id -privilege admin
 
-set title [string totitle [bulk_mail::pretty_name]]
+set title [string totitle [parameter::get -localize -package_id $package_id -parameter pretty_name]]
 
 template::list::create -name messages \
     -multirow message_list \

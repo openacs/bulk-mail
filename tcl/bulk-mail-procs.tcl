@@ -28,13 +28,19 @@ namespace eval bulk_mail {
         return [parameter -localize -package_id $package_id -parameter pretty_name]
     }
 
-    ad_proc -public parameter {
+    ad_proc -deprecated parameter {
         -localize:boolean
         {-package_id ""}
         {-parameter:required}
         {-default ""}
     } {
         returns the bulk_mail parameter value for the given parameter
+
+        DEPRECATED: this proc implements some form of global parameter
+        logic. OpenACS now supports "real" global parameters.
+
+        @see parameter::get_global_value
+        @see parameter::set_global_value
     } {
         if {$package_id eq ""} {
             set package_id [package_id]

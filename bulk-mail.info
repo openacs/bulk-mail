@@ -7,7 +7,7 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
     
-    <version name="2.10.1b1" url="http://openacs.org/repository/download/apm/bulk-mail-2.10.0.apm">
+    <version name="2.10.1b1" url="http://openacs.org/repository/download/apm/bulk-mail-2.10.1b1.apm">
         <owner url="http://openacs.org">OpenACS</owner>
         <release-date>2021-09-16</release-date>
         <vendor url="http://dotlrn.org">DotLRN Consortium</vendor>

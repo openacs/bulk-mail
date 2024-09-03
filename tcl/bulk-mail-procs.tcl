@@ -16,10 +16,17 @@ namespace eval bulk_mail {
         return "bulk-mail"
     }
 
-    ad_proc -public pretty_name {
+    ad_proc -deprecated pretty_name {
         {package_id ""}
     } {
         return the pretty name of this instance
+
+        DEPRECATED: this proc is a trivial wrapper to the parameter
+        api. Furthermore, one has to make sure that the supplied
+        package_id is actually an instance of bulk-mail or the
+        returned value will be unspecified.
+
+        @see parameter::get
     } {
         if {$package_id eq ""} {
             set package_id [ad_conn package_id]
@@ -28,13 +35,19 @@ namespace eval bulk_mail {
         return [parameter -localize -package_id $package_id -parameter pretty_name]
     }
 
-    ad_proc -public parameter {
+    ad_proc -deprecated parameter {
         -localize:boolean
         {-package_id ""}
         {-parameter:required}
         {-default ""}
     } {
         returns the bulk_mail parameter value for the given parameter
+
+        DEPRECATED: this proc implements some form of global parameter
+        logic. OpenACS now supports "real" global parameters.
+
+        @see parameter::get_global_value
+        @see parameter::set_global_value
     } {
         if {$package_id eq ""} {
             set package_id [package_id]
@@ -59,20 +72,10 @@ namespace eval bulk_mail {
         return [db_string select_bulk_mail_package_id {}]
     }
 
-    ad_proc -public url {
+    ad_proc -public url {} {
+        @return the base URL of the top most bulk-mail package.
     } {
-        returns the base url of the top most bulk_mail package
-    } {
-        return [util_memoize {bulk_mail::url_not_cached}]
-    }
-
-    ad_proc -private url_not_cached {
-    } {
-        returns the base url of the top most bulk_mail package
-    } {
-        set package_id [package_id]
-
-        return [db_string select_bulk_mail_url {}]
+        return [site_node::get_url_from_object_id -object_id [bulk_mail::package_id]]
     }
 
     ad_proc -public new {
@@ -86,6 +89,7 @@ namespace eval bulk_mail {
         {-message:required}
         {-message_type ""}
         {-query:required}
+        {-to_display_name ""}
     } {
         create a new bulk_mail message
 
@@ -119,6 +123,11 @@ namespace eval bulk_mail {
                      respective values will also become the 'from_addr',
                      'reply_to', 'subject', and 'message' on a per recipient
                      basis.
+        @param to_display_name Display name set for the recipient in
+                               the To: email header, useful to qualify
+                               the individual recipient as e.g. member
+                               of the group of people who have
+                               received the bulk_mail message.
 
         @return bulk_mail_id the id of the newly created bulk_mail message
     } {
@@ -139,32 +148,57 @@ namespace eval bulk_mail {
             set package_id [ad_conn package_id]
         }
 
-        # set a reasonable default for send_date
-        if {$send_date eq ""} {
-            set send_date [db_string select_current_date {}]
-        }
-
         # set a reasonable default for the reply_to header
         if {$reply_to eq ""} {
             set reply_to $from_addr
         }
 
         # prepare the data
-        set extra_vars [ns_set create]
-        ns_set put $extra_vars package_id $package_id
-        ns_set put $extra_vars send_date $send_date
-        ns_set put $extra_vars date_format $date_format
-        ns_set put $extra_vars from_addr $from_addr
-        ns_set put $extra_vars subject $subject
-        ns_set put $extra_vars reply_to $reply_to
-        ns_set put $extra_vars extra_headers "$extra_headers bulk-mail-type $message_type"
-        ns_set put $extra_vars message $message
-        ns_set put $extra_vars message_type $message_type
-        ns_set put $extra_vars query $query
-        ns_set put $extra_vars context_id $package_id
+        if {[ns_conn isconnected]} {
+            set creation_user [ad_conn user_id]
+            set creation_ip   [ad_conn peeraddr]
+        } else {
+            set creation_user ""
+            set creation_ip   ""
+        }
 
-        # create the new bulk_mail message
-        return [package_instantiate_object -extra_vars $extra_vars "bulk_mail_message"]
+        set object_id [db_exec_plsql create_object {}]
+
+        set extra_headers "$extra_headers bulk-mail-type $message_type"
+
+        db_dml insert_metadata {
+            insert into bulk_mail_messages
+            (
+             bulk_mail_id,
+             package_id,
+             send_date,
+             status,
+             from_addr,
+             subject,
+             reply_to,
+             extra_headers,
+             message,
+             query,
+             to_display_name
+             )
+            values
+            (
+             :object_id,
+             :package_id,
+             to_timestamp(coalesce(cast(:send_date as text), cast(current_timestamp as text)),
+                          coalesce(:date_format, 'YYYY MM DD HH24 MI SS')),
+             'pending',
+             :from_addr,
+             :subject,
+             :reply_to,
+             :extra_headers,
+             :message,
+             :query,
+             :to_display_name
+             )
+        }
+
+        return $object_id
     }
 
     ad_proc -private sweep {
@@ -184,7 +218,7 @@ namespace eval bulk_mail {
             # This is initialized here for each bulk_mail.
             set message_old ""
 
-            # NOTE: JCD: the query issued here is actually stored in the 
+            # NOTE: JCD: the query issued here is actually stored in the
             # database in column bulk_mail_messages.query
             # I am horrified by this.
             foreach recipient [db_list_of_ns_sets select_bulk_mail_recipients [ns_set get $bulk_mail query]] {
@@ -195,8 +229,8 @@ namespace eval bulk_mail {
                 # and message and replace them with the value of that
                 # column as returned by the query
                 set pairs [list]
-                for {set i 0} {$i < [ns_set size $recipient]} {incr i} {
-                    lappend pairs [list \{[ns_set key $recipient $i]\} [ns_set value $recipient $i]]
+                foreach {key value} [ns_set array $recipient] {
+                    lappend pairs "\{$key\}" $value
                 }
 
                 # it's possible that someone may want to override the from
@@ -223,7 +257,7 @@ namespace eval bulk_mail {
 
                 # interpolate the key, value pairs (as described above)
                 # into the subject
-                set subject [interpolate -values $pairs -text $subject]
+                set subject [string map $pairs $subject]
 
                 # it's possible that someone may want to override the
                 # message on a per recipient basis
@@ -234,10 +268,10 @@ namespace eval bulk_mail {
 
                 # mohan's hack to fix the passing of message type for the
                 # mail.
-                # Comment: I have to ask Caroline or Andrew if itis ok to 
+                # Comment: I have to ask Caroline or Andrew if itis ok to
                 # change bulk-mail datamodel to accommodate message_type.
 
-                set extra_headers [util_list_to_ns_set [ns_set get $bulk_mail extra_headers]]
+                set extra_headers [ns_set create s {*}[ns_set get $bulk_mail extra_headers]]
                 set message_type  [ns_set get $extra_headers bulk-mail-type]
 
                 # don't need this anymore and don't want to send it along
@@ -245,16 +279,16 @@ namespace eval bulk_mail {
 
                 # interpolate the key, value pairs (as described above)
                 # into the message body
-                set message [interpolate -values $pairs -text $message]
+                set message [string map $pairs $message]
 
                 if {$message_type eq "html"} {
                     set mime_type "text/html"
                     if {$message_old ne $message } {
-                        # If this message is different then the last loop 
-                        # we set up the html and text messages. Note that 
-                        # ad_html_text_convert can get quite expensive, 
-                        # if you start sending different long html 
-                        # messages created by microsoft word to each of 
+                        # If this message is different then the last loop
+                        # we set up the html and text messages. Note that
+                        # ad_html_text_convert can get quite expensive,
+                        # if you start sending different long html
+                        # messages created by microsoft word to each of
                         # over 100 users, expect performance problems.
 
                         set message_old $message
@@ -262,14 +296,23 @@ namespace eval bulk_mail {
                         set message [ad_html_text_convert -from html -to html $message]
                         # some mailers are chopping off the last few characters.
                         append message "   "
-                    } 
+                    }
                 } else {
                     set mime_type "text/plain"
                 }
 
+                set to_addr [ns_set get $recipient email]
+                set to_display_name [ns_set get $bulk_mail to_display_name]
+                if {$to_display_name ne ""} {
+                    # If a display name has been specified, include it in
+                    # the recipient address.
+                    regsub -all "\"" $to_display_name "\\\"" to_display_name
+                    set to_addr [subst -nocommands {"${to_display_name}" <${to_addr}>}]
+                }
+
                 # both html and plain messages can now be sent the same way
                 acs_mail_lite::send \
-                    -to_addr [ns_set get $recipient email] \
+                    -to_addr [list $to_addr] \
                     -from_addr $from_addr \
                     -subject $subject \
                     -body $message \
@@ -289,11 +332,15 @@ namespace eval bulk_mail {
         ns_log Debug "bulk_mail::sweep ending"
     }
 
-    ad_proc -private interpolate {
+    ad_proc -deprecated -private interpolate {
         {-values:required}
         {-text:required}
     } {
         Interpolates a set of values into a string.
+
+        DEPRECATED: can be replaced by "string map"
+
+        @see "string map"
 
         @param values a list of key, value pairs, each one consisting of a
                       target string and the value it is to be replaced with.

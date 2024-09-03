@@ -7,11 +7,11 @@
 
 create table bulk_mail_messages (
     bulk_mail_id                constraint bm_messages_bulk_mail_id_fk
-                                references acs_objects (object_id)
+                                references acs_objects (object_id) on delete cascade
                                 constraint bm_messages_bulk_mail_id_pk
                                 primary key,
     package_id                  constraint bm_messages_package_id_fk
-                                references apm_packages (package_id)
+                                references apm_packages (package_id) on delete cascade
                                 constraint bm_messages_package_id_nn
                                 not null,
     send_date                   date
@@ -30,6 +30,7 @@ create table bulk_mail_messages (
     query                       clob
                                 constraint bm_messages_query_nn
                                 not null,
+    to_display_name             text,
     status                      varchar2(100)
                                 default 'pending'
                                 constraint bm_messages_status_ck
